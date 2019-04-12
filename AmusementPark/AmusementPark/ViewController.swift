@@ -42,7 +42,6 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        createEmployees()
         textFieldsArray = [dateOfBirthTextField, ssnTextField, projectNumberTextField, firstNameTextField, lastNameTextField, companyTextField,
                            streetAddressTextField, cityTextField, stateTextField, zipCodeTextField]
         entrantButtonTapped(sender: entrantCategoryButtons[0])
@@ -140,6 +139,8 @@ class ViewController: UIViewController {
                 fatalError()
             }
         } else if entrantCategory == .employee {
+            populateDataButton.isEnabled = true
+            populateDataButton.setTitleColor(.black, for: .normal)
             switch sender {
             case entrantTypeButtons[0]:
                 entrantType = .food
@@ -280,122 +281,125 @@ class ViewController: UIViewController {
     @IBAction func populateDataTapped(_ sender: UIButton) {
         switch (entrantCategory, entrantType) {
         case (.guest, .freeChild):
-            do {
-                let childEntrant = try ChildGuest(birthDate: "2016-04-03")
-                dateOfBirthTextField.text = childEntrant.stringForPersonalInformation()
-            } catch EntrantError.missingDateOfBirth {
-                print("Date of birth is missing")
-            } catch EntrantError.tooOld {
-                print("Child is too old")
-            } catch let error {
-                print("Unexpected error \(error)")
-            }
+            dateOfBirthTextField.text = "2016-04-03"
         case (.guest, .seasonPass):
             let personalInformation = PersonalInformation(firstName: "Season", lastName: "Pass", streetAddress: "1 Infinite Loop", city: "Pasadena", state: "California", zipCode: "91001")
-            let guest = SeasonPassGuest(personalInformation: personalInformation)
-            firstNameTextField.text = guest.personalInformation.firstName
-            lastNameTextField.text = guest.personalInformation.lastName
-            streetAddressTextField.text = guest.personalInformation.streetAddress
-            cityTextField.text = guest.personalInformation.city
-            stateTextField.text = guest.personalInformation.state
-            zipCodeTextField.text = guest.personalInformation.zipCode
-            
-            
+            populateForm(personalInformation: personalInformation, birthDate: nil)
         case (.guest, .senior):
-            let personalInformation = PersonalInformation(firstName: "Senior", lastName: "Senior", streetAddress: "2 Infinite Loop", city: "Pasadena", state: "New York", zipCode: "91001")
-            do {
-                let guest = try SeniorGuest(birthDate: "1960-01-01", personalInformation: personalInformation)
-                firstNameTextField.text = guest.personalInformation.firstName
-                lastNameTextField.text = guest.personalInformation.lastName
-                dateOfBirthTextField.text = "\(guest.birthDate)"
-            } catch EntrantError.missingDateOfBirth {
-                print("Date of birth is missing")
-            } catch let error {
-                print("Unexpected error \(error)")
-            }
+            let personalInformation = PersonalInformation(firstName: "Senior", lastName: "Senior", streetAddress: "", city: "", state: "", zipCode: "")
+            populateForm(personalInformation: personalInformation, birthDate: "1960-01-01")
+
         case (.employee, .food):
-            populateEmployeeData(employees[0])
+            let personalInformation = PersonalInformation(firstName: "Sheldon", lastName: "Cooper", streetAddress: "1 Infinite Loop", city: "Pasadena", state: "California", zipCode: "91001")
+            populateForm(personalInformation: personalInformation, birthDate: nil)
         case (.employee, .maintenance):
-            populateEmployeeData(employees[1])
+            let personalInformation = PersonalInformation(firstName: "Amy", lastName: "Fowler", streetAddress: "2 Infinite Loop", city: "Pasadena", state: "New York", zipCode: "91001")
+            populateForm(personalInformation: personalInformation, birthDate: nil)
         case (.employee, .ride):
-            populateEmployeeData(employees[2])
+            let personalInformation = PersonalInformation(firstName: "Penny", lastName: "Hofstader", streetAddress: "3 Infinite Loop", city: "Ohmaha", state: "Nebraska", zipCode: "68197")
+            populateForm(personalInformation: personalInformation, birthDate: nil)
         case (.employee, .contract):
-            populateEmployeeData(employees[3])
+            let personalInformation = PersonalInformation(firstName: "Leonard", lastName: "Hofstader", streetAddress: "4 Infinite Loop", city: "Pasadena", state: "California", zipCode: "90000")
+            populateForm(personalInformation: personalInformation, birthDate: nil)
         case (.manager, .manager):
-            let personalInformationManager = PersonalInformation(firstName: "Rajesh", lastName: "Kootrapali", streetAddress: "1 Infinite Loop", city: "Pasadena", state: "California", zipCode: "91001")
-            do {
-                let manager = try Manager(personalInformation: personalInformationManager)
-                populateManagerData(manager)
-            } catch EntrantError.addressImcomplete {
-                print("Address incomplete")
-            } catch let error {
-                print("Unexpected error\(error) ")
-            }
-            
+            let personalInformation = PersonalInformation(firstName: "Rajesh", lastName: "Kootrapali", streetAddress: "1 Infinite Loop", city: "Pasadena", state: "California", zipCode: "91001")
+            populateForm(personalInformation: personalInformation, birthDate: nil)
         case (.vendor, .vendor):
-            let personalInformationVendor = PersonalInformation(firstName: "Howard", lastName: "Wolowitz", streetAddress: "1 Inifinite Loop", city: "Pasadena", state: "California", zipCode: "91001")
-            do {
-                let vendor = try Vendor(birthDate: "1970-09-25", personalInformation: personalInformationVendor, company: "Apple")
-                populateVendorData(vendor)
-            } catch EntrantError.addressImcomplete {
-                print("Address incomplete")
-            } catch let error {
-                print("Unexpected error\(error) ")
-            }
+            let personalInformation = PersonalInformation(firstName: "Howard", lastName: "Wolowitz", streetAddress: "", city: "", state: "", zipCode: "")
+            populateForm(personalInformation: personalInformation, birthDate: "1970-09-25")
+
         default:
             
             fatalError()
         }
     }
     
-    
-    func populateEmployeeData(_ employee: Employee) {
-        firstNameTextField.text = employee.personalInformation.firstName
-        lastNameTextField.text = employee.personalInformation.lastName
-        streetAddressTextField.text = employee.personalInformation.streetAddress
-        cityTextField.text = employee.personalInformation.city
-        stateTextField.text = employee.personalInformation.state
-        zipCodeTextField.text = employee.personalInformation.zipCode
-    }
-    
-    func populateManagerData(_ employee: Manager) {
-        firstNameTextField.text = employee.personalInformation.firstName
-        lastNameTextField.text = employee.personalInformation.lastName
-        streetAddressTextField.text = employee.personalInformation.streetAddress
-        cityTextField.text = employee.personalInformation.city
-        stateTextField.text = employee.personalInformation.state
-        zipCodeTextField.text = employee.personalInformation.zipCode
-    }
-    
-    func populateVendorData(_ employee: Vendor) {
-        firstNameTextField.text = employee.personalInformation.firstName
-        lastNameTextField.text = employee.personalInformation.lastName
-        companyTextField.text = employee.company
-        dateOfBirthTextField.text = "\(employee.birthDate)"
-    }
-    
-    func createEmployees() {
-        let personalInformation1 = PersonalInformation(firstName: "Sheldon", lastName: "Cooper", streetAddress: "1 Infinite Loop", city: "Pasadena", state: "California", zipCode: "91001")
-        let personalInformation2 = PersonalInformation(firstName: "Amy", lastName: "Fowler", streetAddress: "2 Infinite Loop", city: "Pasadena", state: "New York", zipCode: "91001")
-        let personalInformation3 = PersonalInformation(firstName: "Penny", lastName: "Hofstader", streetAddress: "3 Infinite Loop", city: "Ohmaha", state: "Nebraska", zipCode: "68197")
-        let personalInformation4 = PersonalInformation(firstName: "Leonard", lastName: "Hofstader", streetAddress: "4 Infinite Loop", city: "Pasadena", state: "California", zipCode: "90000")
-        
-        do {
-            let employeeEntrant1 = try Employee(entrantType: .food, personalInformation: personalInformation1)
-            employees.append(employeeEntrant1)
-            let employeeEntrant2 = try Employee(entrantType: .maintenance, personalInformation: personalInformation2)
-            employees.append(employeeEntrant2)
-            let employeeEntrant3 = try Employee(entrantType: .ride, personalInformation: personalInformation3)
-            employees.append(employeeEntrant3)
-            let employeeEntrant4 = try Employee(entrantType: .contract, personalInformation: personalInformation4)
-            employees.append(employeeEntrant4)
-        } catch EntrantError.addressImcomplete {
-            print("Address incomplete")
-        } catch let error {
-            print("Unexpected error \(error)")
+    func populateForm(personalInformation: PersonalInformation, birthDate: String?) {
+        if let birthDate = birthDate {
+            dateOfBirthTextField.text = birthDate
         }
+        firstNameTextField.text = personalInformation.firstName
+        lastNameTextField.text = personalInformation.lastName
+        streetAddressTextField.text = personalInformation.streetAddress
+        cityTextField.text = personalInformation.city
+        stateTextField.text = personalInformation.state
+        zipCodeTextField.text = personalInformation.zipCode
+        
     }
     
+    
+    
+    // Temp function
+//    func createObjects() {
+//        switch (entrantCategory, entrantType) {
+//        case (.guest, .freeChild):
+//            do {
+//                let childEntrant = try ChildGuest(birthDate: "2016-04-03")
+//                dateOfBirthTextField.text = childEntrant.stringForPersonalInformation()
+//            } catch EntrantError.missingDateOfBirth {
+//                print("Date of birth is missing")
+//            } catch EntrantError.tooOld {
+//                print("Child is too old")
+//            } catch let error {
+//                print("Unexpected error \(error)")
+//            }
+//        case (.guest, .seasonPass):
+//            let personalInformation = PersonalInformation(firstName: "Season", lastName: "Pass", streetAddress: "1 Infinite Loop", city: "Pasadena", state: "California", zipCode: "91001")
+//            let guest = SeasonPassGuest(personalInformation: personalInformation)
+//            firstNameTextField.text = guest.personalInformation.firstName
+//            lastNameTextField.text = guest.personalInformation.lastName
+//            streetAddressTextField.text = guest.personalInformation.streetAddress
+//            cityTextField.text = guest.personalInformation.city
+//            stateTextField.text = guest.personalInformation.state
+//            zipCodeTextField.text = guest.personalInformation.zipCode
+//
+//
+//        case (.guest, .senior):
+//            let personalInformation = PersonalInformation(firstName: "Senior", lastName: "Senior", streetAddress: "2 Infinite Loop", city: "Pasadena", state: "New York", zipCode: "91001")
+//            do {
+//                let guest = try SeniorGuest(birthDate: "1960-01-01", personalInformation: personalInformation)
+//                firstNameTextField.text = guest.personalInformation.firstName
+//                lastNameTextField.text = guest.personalInformation.lastName
+//                dateOfBirthTextField.text = "\(guest.birthDate)"
+//            } catch EntrantError.missingDateOfBirth {
+//                print("Date of birth is missing")
+//            } catch let error {
+//                print("Unexpected error \(error)")
+//            }
+//        case (.employee, .food):
+//            populateEmployeeData(employees[0])
+//        case (.employee, .maintenance):
+//            populateEmployeeData(employees[1])
+//        case (.employee, .ride):
+//            populateEmployeeData(employees[2])
+//        case (.employee, .contract):
+//            populateEmployeeData(employees[3])
+//        case (.manager, .manager):
+//            let personalInformationManager = PersonalInformation(firstName: "Rajesh", lastName: "Kootrapali", streetAddress: "1 Infinite Loop", city: "Pasadena", state: "California", zipCode: "91001")
+//            do {
+//                let manager = try Manager(personalInformation: personalInformationManager)
+//                populateManagerData(manager)
+//            } catch EntrantError.addressImcomplete {
+//                print("Address incomplete")
+//            } catch let error {
+//                print("Unexpected error\(error) ")
+//            }
+//
+//        case (.vendor, .vendor):
+//            let personalInformationVendor = PersonalInformation(firstName: "Howard", lastName: "Wolowitz", streetAddress: "1 Inifinite Loop", city: "Pasadena", state: "California", zipCode: "91001")
+//            do {
+//                let vendor = try Vendor(birthDate: "1970-09-25", personalInformation: personalInformationVendor, company: "Apple")
+//                populateVendorData(vendor)
+//            } catch EntrantError.addressImcomplete {
+//                print("Address incomplete")
+//            } catch let error {
+//                print("Unexpected error\(error) ")
+//            }
+//        default:
+//
+//            fatalError()
+//        }
+//    }
     
 }
 
