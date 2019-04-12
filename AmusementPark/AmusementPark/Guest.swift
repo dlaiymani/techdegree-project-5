@@ -74,6 +74,10 @@ class SeniorGuest: Guest {
         } else {
             throw EntrantError.missingDateOfBirth
         }
+        
+        if !personalInformation.validatePersonalInformationForSenior() {
+            throw EntrantError.addressImcomplete
+        }
         self.personalInformation = personalInformation
 
         super.init(entrantType: EntrantType.senior)
@@ -88,7 +92,11 @@ class SeniorGuest: Guest {
 class SeasonPassGuest: Guest {
     var personalInformation: PersonalInformation
     
-    init(personalInformation: PersonalInformation) {
+    init(personalInformation: PersonalInformation) throws {
+        
+        if !personalInformation.validatePersonalInformation() {
+            throw EntrantError.addressImcomplete
+        }
         
         self.personalInformation = personalInformation
         

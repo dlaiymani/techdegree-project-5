@@ -27,4 +27,20 @@ struct PersonalInformation: CustomStringConvertible  {
             return true
         }
     }
+    
+    func validatePersonalInformationForSenior() -> Bool {
+        if firstName == "" || lastName == "" {
+            return false
+        } else {
+            return true
+        }
+    }
+    
+    func validatePersonalInformationForVendor() -> Bool {
+        if firstName == "" || lastName == "" {
+            return false
+        } else {
+            return true
+        }
+    }
 }

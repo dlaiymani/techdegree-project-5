@@ -36,7 +36,7 @@ class Vendor: Entrant {
     // MARK: - Methods
     
     // Failable initializer in case of incomplete address
-    init(birthDate: String, personalInformation: PersonalInformation, company: String) throws {
+    init(birthDate: String, personalInformation: PersonalInformation, company: String?) throws {
         
         if let birthDate = birthDate.createDate() { // test if birth date is renseigned
             self.birthDate = birthDate
@@ -44,13 +44,23 @@ class Vendor: Entrant {
             throw EntrantError.missingDateOfBirth
         }
         
-        if !personalInformation.validatePersonalInformation() {
+        if let company = company {
+            print("yep")
+            if company != "" {
+                self.company = company
+            } else {
+                throw EntrantError.missingCompany
+            }
+        } else {
+            throw EntrantError.missingCompany
+        }
+        
+        if !personalInformation.validatePersonalInformationForVendor() {
             throw EntrantError.addressImcomplete
         }
         self.personalInformation = personalInformation
         self.entrantCategory = .manager
         self.entrantType = .manager
-        self.company = company
     }
     
     // Swipe at a checkpoint

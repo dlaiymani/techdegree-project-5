@@ -139,6 +139,9 @@
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                                         <textInputTraits key="textInputTraits"/>
+                                                        <connections>
+                                                            <outlet property="delegate" destination="BYZ-38-t0r" id="nzB-mD-tBJ"/>
+                                                        </connections>
                                                     </textField>
                                                 </subviews>
                                                 <constraints>
@@ -163,6 +166,9 @@
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                                         <textInputTraits key="textInputTraits"/>
+                                                        <connections>
+                                                            <outlet property="delegate" destination="BYZ-38-t0r" id="hH0-eM-XdE"/>
+                                                        </connections>
                                                     </textField>
                                                 </subviews>
                                             </stackView>
@@ -184,6 +190,9 @@
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                                         <textInputTraits key="textInputTraits"/>
+                                                        <connections>
+                                                            <outlet property="delegate" destination="BYZ-38-t0r" id="EPU-hy-QZY"/>
+                                                        </connections>
                                                     </textField>
                                                 </subviews>
                                             </stackView>
@@ -210,6 +219,9 @@
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                                         <textInputTraits key="textInputTraits"/>
+                                                        <connections>
+                                                            <outlet property="delegate" destination="BYZ-38-t0r" id="Txq-N7-hYl"/>
+                                                        </connections>
                                                     </textField>
                                                 </subviews>
                                                 <constraints>
@@ -234,6 +246,9 @@
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                                         <textInputTraits key="textInputTraits"/>
+                                                        <connections>
+                                                            <outlet property="delegate" destination="BYZ-38-t0r" id="x9P-Lk-HG4"/>
+                                                        </connections>
                                                     </textField>
                                                 </subviews>
                                                 <constraints>
@@ -263,6 +278,9 @@
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                                         <textInputTraits key="textInputTraits"/>
+                                                        <connections>
+                                                            <outlet property="delegate" destination="BYZ-38-t0r" id="TRd-vI-USz"/>
+                                                        </connections>
                                                     </textField>
                                                 </subviews>
                                                 <constraints>
@@ -292,6 +310,9 @@
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                                 <textInputTraits key="textInputTraits"/>
+                                                <connections>
+                                                    <outlet property="delegate" destination="BYZ-38-t0r" id="QeS-ti-Oin"/>
+                                                </connections>
                                             </textField>
                                         </subviews>
                                         <constraints>
@@ -318,6 +339,9 @@
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                                         <textInputTraits key="textInputTraits"/>
+                                                        <connections>
+                                                            <outlet property="delegate" destination="BYZ-38-t0r" id="N0q-kt-dEC"/>
+                                                        </connections>
                                                     </textField>
                                                 </subviews>
                                                 <constraints>
@@ -341,6 +365,9 @@
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                                         <textInputTraits key="textInputTraits"/>
+                                                        <connections>
+                                                            <outlet property="delegate" destination="BYZ-38-t0r" id="IGJ-re-5oj"/>
+                                                        </connections>
                                                     </textField>
                                                 </subviews>
                                                 <constraints>
@@ -364,6 +391,9 @@
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                                         <textInputTraits key="textInputTraits"/>
+                                                        <connections>
+                                                            <outlet property="delegate" destination="BYZ-38-t0r" id="8kD-IT-KcC"/>
+                                                        </connections>
                                                     </textField>
                                                 </subviews>
                                                 <constraints>
@@ -388,6 +418,9 @@
                                                         <state key="normal" title="Generate Pass">
                                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         </state>
+                                                        <connections>
+                                                            <segue destination="MTW-SG-wWT" kind="show" identifier="GeneratePassSegue" id="FPU-36-UCD"/>
+                                                        </connections>
                                                     </button>
                                                 </subviews>
                                                 <color key="backgroundColor" red="0.35294117650000001" green="0.73333333329999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -446,6 +479,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="bottomConstraint" destination="q5e-JA-1Ln" id="sYw-pz-Z2d"/>
                         <outlet property="cityTextField" destination="vOZ-ce-CRC" id="Q1A-YV-gpY"/>
                         <outlet property="companyTextField" destination="1Nq-ym-LqF" id="SUx-xf-bsP"/>
                         <outlet property="dateOfBirthTextField" destination="yew-Kh-JPt" id="6r9-lM-SZy"/>
@@ -456,6 +490,7 @@
                         <outlet property="ssnTextField" destination="Hxn-ce-jXl" id="ja7-Se-C8a"/>
                         <outlet property="stateTextField" destination="1MR-qZ-eC3" id="VX7-JL-pdz"/>
                         <outlet property="streetAddressTextField" destination="orR-l7-c1C" id="dtD-qp-G9S"/>
+                        <outlet property="topConstraint" destination="lbf-3w-DgF" id="5zf-sx-YBu"/>
                         <outlet property="zipCodeTextField" destination="Lz6-p7-57c" id="jBJ-9l-QFs"/>
                         <outletCollection property="entrantCategoryButtons" destination="h7Z-zN-JNO" collectionClass="NSMutableArray" id="Vs1-K3-1k9"/>
                         <outletCollection property="entrantCategoryButtons" destination="TxQ-5W-fNU" collectionClass="NSMutableArray" id="UeJ-cT-SNa"/>
@@ -470,7 +505,22 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-304" y="98"/>
+            <point key="canvasLocation" x="-663" y="36"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="pTk-Fh-BQB">
+            <objects>
+                <viewController id="MTW-SG-wWT" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="BY1-cz-Fs8">
+                        <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="wjT-77-oly"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1ON-lp-RsI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="154" y="36"/>
         </scene>
     </scenes>
 </document>
