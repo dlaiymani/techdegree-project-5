@@ -12,6 +12,14 @@
 		AA208452225F82980010A93C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA208450225F82980010A93C /* Main.storyboard */; };
 		AA208454225F82990010A93C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA208453225F82990010A93C /* Assets.xcassets */; };
 		AA208457225F82990010A93C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA208455225F82990010A93C /* LaunchScreen.storyboard */; };
+		AA3ABD8F2260774A008A6365 /* Entrant.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3ABD8E2260774A008A6365 /* Entrant.swift */; };
+		AA3ABD912260778D008A6365 /* Checkpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3ABD902260778D008A6365 /* Checkpoint.swift */; };
+		AA3ABD9822607844008A6365 /* Employee.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3ABD9222607843008A6365 /* Employee.swift */; };
+		AA3ABD9922607844008A6365 /* PersonalInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3ABD9322607844008A6365 /* PersonalInformation.swift */; };
+		AA3ABD9A22607844008A6365 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3ABD9422607844008A6365 /* Extensions.swift */; };
+		AA3ABD9B22607844008A6365 /* Guest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3ABD9522607844008A6365 /* Guest.swift */; };
+		AA3ABD9C22607844008A6365 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3ABD9622607844008A6365 /* Errors.swift */; };
+		AA3ABD9D22607844008A6365 /* Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3ABD9722607844008A6365 /* Manager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +30,14 @@
 		AA208453225F82990010A93C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AA208456225F82990010A93C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AA208458225F82990010A93C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AA3ABD8E2260774A008A6365 /* Entrant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entrant.swift; sourceTree = "<group>"; };
+		AA3ABD902260778D008A6365 /* Checkpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checkpoint.swift; sourceTree = "<group>"; };
+		AA3ABD9222607843008A6365 /* Employee.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Employee.swift; sourceTree = "<group>"; };
+		AA3ABD9322607844008A6365 /* PersonalInformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonalInformation.swift; sourceTree = "<group>"; };
+		AA3ABD9422607844008A6365 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		AA3ABD9522607844008A6365 /* Guest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Guest.swift; sourceTree = "<group>"; };
+		AA3ABD9622607844008A6365 /* Errors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
+		AA3ABD9722607844008A6365 /* Manager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Manager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +76,14 @@
 				AA208453225F82990010A93C /* Assets.xcassets */,
 				AA208455225F82990010A93C /* LaunchScreen.storyboard */,
 				AA208458225F82990010A93C /* Info.plist */,
+				AA3ABD8E2260774A008A6365 /* Entrant.swift */,
+				AA3ABD902260778D008A6365 /* Checkpoint.swift */,
+				AA3ABD9222607843008A6365 /* Employee.swift */,
+				AA3ABD9622607844008A6365 /* Errors.swift */,
+				AA3ABD9422607844008A6365 /* Extensions.swift */,
+				AA3ABD9522607844008A6365 /* Guest.swift */,
+				AA3ABD9722607844008A6365 /* Manager.swift */,
+				AA3ABD9322607844008A6365 /* PersonalInformation.swift */,
 			);
 			path = AmusementPark;
 			sourceTree = "<group>";
@@ -135,8 +159,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA3ABD8F2260774A008A6365 /* Entrant.swift in Sources */,
 				AA20844F225F82980010A93C /* ViewController.swift in Sources */,
 				AA20844D225F82980010A93C /* AppDelegate.swift in Sources */,
+				AA3ABD9822607844008A6365 /* Employee.swift in Sources */,
+				AA3ABD9922607844008A6365 /* PersonalInformation.swift in Sources */,
+				AA3ABD912260778D008A6365 /* Checkpoint.swift in Sources */,
+				AA3ABD9B22607844008A6365 /* Guest.swift in Sources */,
+				AA3ABD9C22607844008A6365 /* Errors.swift in Sources */,
+				AA3ABD9A22607844008A6365 /* Extensions.swift in Sources */,
+				AA3ABD9D22607844008A6365 /* Manager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
