@@ -36,16 +36,21 @@ enum EntrantType: String {
     case classic
     case vip
     case freeChild
+    case senior
+    case seasonPass
     case food
     case ride
     case maintenance
+    case contract
     case manager
+    case vendor
 }
 
 enum EntrantCategory: String {
     case guest
     case employee
     case manager
+    case vendor
 }
 
 protocol Entrant {

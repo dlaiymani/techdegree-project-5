@@ -29,11 +29,20 @@ class ViewController: UIViewController {
     
     var textFieldsArray = [UITextField]()
     
+    @IBOutlet weak var populateDataButton: UIButton!
+    
     var entrantType: EntrantType = .freeChild
     var entrantCategory: EntrantCategory = .guest
     
+    var employees = [Employee]()
+    var guest = [Guest]()
+    var manager = [Manager]()
+    var vendor = [Vendor]()
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        createEmployees()
         textFieldsArray = [dateOfBirthTextField, ssnTextField, projectNumberTextField, firstNameTextField, lastNameTextField, companyTextField,
                            streetAddressTextField, cityTextField, stateTextField, zipCodeTextField]
         entrantButtonTapped(sender: entrantCategoryButtons[0])
@@ -72,7 +81,7 @@ class ViewController: UIViewController {
             entrantCategory = .manager
         case entrantCategoryButtons[3]:
             displayVendorBar()
-            entrantCategory = .manager
+            entrantCategory = .vendor
         default:
             fatalError()
             
@@ -105,12 +114,28 @@ class ViewController: UIViewController {
             switch sender {
             case entrantTypeButtons[0]:
                 entrantType = .freeChild
+                populateDataButton.isEnabled = true
+                populateDataButton.setTitleColor(.black, for: .normal)
+
             case entrantTypeButtons[1]:
                 entrantType = .classic
+                populateDataButton.isEnabled = false
+                populateDataButton.setTitleColor(.lightGray, for: .normal)
             case entrantTypeButtons[2]:
-                entrantType = .vip
+                entrantType = .senior
+                populateDataButton.isEnabled = true
+                populateDataButton.setTitleColor(.black, for: .normal)
+
             case entrantTypeButtons[3]:
+                entrantType = .seasonPass
+                populateDataButton.isEnabled = true
+                populateDataButton.setTitleColor(.black, for: .normal)
+
+            case entrantTypeButtons[4]:
                 entrantType = .vip
+                populateDataButton.isEnabled = false
+                populateDataButton.setTitleColor(.lightGray, for: .normal)
+
             default:
                 fatalError()
             }
@@ -123,12 +148,15 @@ class ViewController: UIViewController {
             case entrantTypeButtons[2]:
                 entrantType = .maintenance
             case entrantTypeButtons[3]:
-                entrantType = .maintenance
+                entrantType = .contract
             default:
                 fatalError()
             }
         } else if entrantCategory == .manager {
             entrantType = .manager
+        } else {
+            entrantType = .vendor
+
         }
         manageTextField()
         
@@ -156,7 +184,9 @@ class ViewController: UIViewController {
         entrantTypeButtons[0].setTitle("Child", for: .normal)
         entrantTypeButtons[1].setTitle("Adult", for: .normal)
         entrantTypeButtons[2].setTitle("Senior", for: .normal)
-        entrantTypeButtons[3].setTitle("VIP", for: .normal)
+        entrantTypeButtons[3].setTitle("Season Pass", for: .normal)
+        entrantTypeButtons[3].isEnabled = true
+        entrantTypeButtons[4].setTitle("VIP", for: .normal)
     }
     
     func displayEmployeeBar() {
@@ -165,6 +195,10 @@ class ViewController: UIViewController {
         entrantTypeButtons[1].setTitle("Ride Services", for: .normal)
         entrantTypeButtons[2].setTitle("Maintenance", for: .normal)
         entrantTypeButtons[3].setTitle("Contract", for: .normal)
+        entrantTypeButtons[4].isEnabled = false
+        entrantTypeButtons[4].setTitle("", for: .normal)
+        entrantTypeButtons[4].isHidden = true
+
     }
 
     func displayManagerBar() {
@@ -182,31 +216,186 @@ class ViewController: UIViewController {
         for textField in textFieldsArray {
             textField.isEnabled = false
             textField.backgroundColor = .lightGray
+            textField.text = ""
         }
+    }
+    
+    func disableTextField(atIndex index: Int) {
+        textFieldsArray[index].isEnabled = false
+        textFieldsArray[index].backgroundColor = .lightGray
+        textFieldsArray[index].text = ""
+
     }
     
     func enableAllTextFields() {
         for textField in textFieldsArray {
             textField.isEnabled = true
             textField.backgroundColor = .white
+            textField.text = ""
+
         }
+    }
+    
+    
+    func enableTextField(atIndex index: Int) {
+        textFieldsArray[index].isEnabled = true
+        textFieldsArray[index].backgroundColor = .white
+        textFieldsArray[index].text = ""
+
     }
     
     func manageTextField() {
         switch (entrantCategory, entrantType) {
         case (.guest, .freeChild):
             disableAllTextFields()
-            textFieldsArray[0].isEnabled = true
-            textFieldsArray[0].backgroundColor = .white
-        case (.guest, .classic):
+            enableTextField(atIndex: 0)
+        case (.guest, .classic), (.guest, .vip):
+            disableAllTextFields()
+        case (.guest, .senior):
+            disableAllTextFields()
+            enableTextField(atIndex: 0)
+            enableTextField(atIndex: 3)
+            enableTextField(atIndex: 4)
+        case (.guest, .seasonPass), (.employee, .food), (.employee, .ride),
+             (.employee, .maintenance), (.employee, .contract), (.manager, .manager):
             enableAllTextFields()
-            textFieldsArray[5].isEnabled = false
-            textFieldsArray[5].backgroundColor = .lightGray
+            disableTextField(atIndex: 5)
+            disableTextField(atIndex: 0)
+            disableTextField(atIndex: 1)
+            disableTextField(atIndex: 2)
+        case (.vendor, .vendor):
+            disableAllTextFields()
+            enableTextField(atIndex: 0)
+            enableTextField(atIndex: 3)
+            enableTextField(atIndex: 4)
+            enableTextField(atIndex: 5)
         default:
             fatalError()
         }
         
     }
-
+    
+    // MARK: - Populate Data
+    
+    @IBAction func populateDataTapped(_ sender: UIButton) {
+        switch (entrantCategory, entrantType) {
+        case (.guest, .freeChild):
+            do {
+                let childEntrant = try ChildGuest(birthDate: "2016-04-03")
+                dateOfBirthTextField.text = childEntrant.stringForPersonalInformation()
+            } catch EntrantError.missingDateOfBirth {
+                print("Date of birth is missing")
+            } catch EntrantError.tooOld {
+                print("Child is too old")
+            } catch let error {
+                print("Unexpected error \(error)")
+            }
+        case (.guest, .seasonPass):
+            let personalInformation = PersonalInformation(firstName: "Season", lastName: "Pass", streetAddress: "1 Infinite Loop", city: "Pasadena", state: "California", zipCode: "91001")
+            let guest = SeasonPassGuest(personalInformation: personalInformation)
+            firstNameTextField.text = guest.personalInformation.firstName
+            lastNameTextField.text = guest.personalInformation.lastName
+            streetAddressTextField.text = guest.personalInformation.streetAddress
+            cityTextField.text = guest.personalInformation.city
+            stateTextField.text = guest.personalInformation.state
+            zipCodeTextField.text = guest.personalInformation.zipCode
+            
+            
+        case (.guest, .senior):
+            let personalInformation = PersonalInformation(firstName: "Senior", lastName: "Senior", streetAddress: "2 Infinite Loop", city: "Pasadena", state: "New York", zipCode: "91001")
+            do {
+                let guest = try SeniorGuest(birthDate: "1960-01-01", personalInformation: personalInformation)
+                firstNameTextField.text = guest.personalInformation.firstName
+                lastNameTextField.text = guest.personalInformation.lastName
+                dateOfBirthTextField.text = "\(guest.birthDate)"
+            } catch EntrantError.missingDateOfBirth {
+                print("Date of birth is missing")
+            } catch let error {
+                print("Unexpected error \(error)")
+            }
+        case (.employee, .food):
+            populateEmployeeData(employees[0])
+        case (.employee, .maintenance):
+            populateEmployeeData(employees[1])
+        case (.employee, .ride):
+            populateEmployeeData(employees[2])
+        case (.employee, .contract):
+            populateEmployeeData(employees[3])
+        case (.manager, .manager):
+            let personalInformationManager = PersonalInformation(firstName: "Rajesh", lastName: "Kootrapali", streetAddress: "1 Infinite Loop", city: "Pasadena", state: "California", zipCode: "91001")
+            do {
+                let manager = try Manager(personalInformation: personalInformationManager)
+                populateManagerData(manager)
+            } catch EntrantError.addressImcomplete {
+                print("Address incomplete")
+            } catch let error {
+                print("Unexpected error\(error) ")
+            }
+            
+        case (.vendor, .vendor):
+            let personalInformationVendor = PersonalInformation(firstName: "Howard", lastName: "Wolowitz", streetAddress: "1 Inifinite Loop", city: "Pasadena", state: "California", zipCode: "91001")
+            do {
+                let vendor = try Vendor(birthDate: "1970-09-25", personalInformation: personalInformationVendor, company: "Apple")
+                populateVendorData(vendor)
+            } catch EntrantError.addressImcomplete {
+                print("Address incomplete")
+            } catch let error {
+                print("Unexpected error\(error) ")
+            }
+        default:
+            
+            fatalError()
+        }
+    }
+    
+    
+    func populateEmployeeData(_ employee: Employee) {
+        firstNameTextField.text = employee.personalInformation.firstName
+        lastNameTextField.text = employee.personalInformation.lastName
+        streetAddressTextField.text = employee.personalInformation.streetAddress
+        cityTextField.text = employee.personalInformation.city
+        stateTextField.text = employee.personalInformation.state
+        zipCodeTextField.text = employee.personalInformation.zipCode
+    }
+    
+    func populateManagerData(_ employee: Manager) {
+        firstNameTextField.text = employee.personalInformation.firstName
+        lastNameTextField.text = employee.personalInformation.lastName
+        streetAddressTextField.text = employee.personalInformation.streetAddress
+        cityTextField.text = employee.personalInformation.city
+        stateTextField.text = employee.personalInformation.state
+        zipCodeTextField.text = employee.personalInformation.zipCode
+    }
+    
+    func populateVendorData(_ employee: Vendor) {
+        firstNameTextField.text = employee.personalInformation.firstName
+        lastNameTextField.text = employee.personalInformation.lastName
+        companyTextField.text = employee.company
+        dateOfBirthTextField.text = "\(employee.birthDate)"
+    }
+    
+    func createEmployees() {
+        let personalInformation1 = PersonalInformation(firstName: "Sheldon", lastName: "Cooper", streetAddress: "1 Infinite Loop", city: "Pasadena", state: "California", zipCode: "91001")
+        let personalInformation2 = PersonalInformation(firstName: "Amy", lastName: "Fowler", streetAddress: "2 Infinite Loop", city: "Pasadena", state: "New York", zipCode: "91001")
+        let personalInformation3 = PersonalInformation(firstName: "Penny", lastName: "Hofstader", streetAddress: "3 Infinite Loop", city: "Ohmaha", state: "Nebraska", zipCode: "68197")
+        let personalInformation4 = PersonalInformation(firstName: "Leonard", lastName: "Hofstader", streetAddress: "4 Infinite Loop", city: "Pasadena", state: "California", zipCode: "90000")
+        
+        do {
+            let employeeEntrant1 = try Employee(entrantType: .food, personalInformation: personalInformation1)
+            employees.append(employeeEntrant1)
+            let employeeEntrant2 = try Employee(entrantType: .maintenance, personalInformation: personalInformation2)
+            employees.append(employeeEntrant2)
+            let employeeEntrant3 = try Employee(entrantType: .ride, personalInformation: personalInformation3)
+            employees.append(employeeEntrant3)
+            let employeeEntrant4 = try Employee(entrantType: .contract, personalInformation: personalInformation4)
+            employees.append(employeeEntrant4)
+        } catch EntrantError.addressImcomplete {
+            print("Address incomplete")
+        } catch let error {
+            print("Unexpected error \(error)")
+        }
+    }
+    
+    
 }
 

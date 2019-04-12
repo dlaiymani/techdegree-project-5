@@ -20,6 +20,7 @@
 		AA3ABD9B22607844008A6365 /* Guest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3ABD9522607844008A6365 /* Guest.swift */; };
 		AA3ABD9C22607844008A6365 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3ABD9622607844008A6365 /* Errors.swift */; };
 		AA3ABD9D22607844008A6365 /* Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3ABD9722607844008A6365 /* Manager.swift */; };
+		AA3ABD9F2260B03D008A6365 /* Vendor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3ABD9E2260B03D008A6365 /* Vendor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		AA3ABD9522607844008A6365 /* Guest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Guest.swift; sourceTree = "<group>"; };
 		AA3ABD9622607844008A6365 /* Errors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		AA3ABD9722607844008A6365 /* Manager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Manager.swift; sourceTree = "<group>"; };
+		AA3ABD9E2260B03D008A6365 /* Vendor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vendor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +85,7 @@
 				AA3ABD9422607844008A6365 /* Extensions.swift */,
 				AA3ABD9522607844008A6365 /* Guest.swift */,
 				AA3ABD9722607844008A6365 /* Manager.swift */,
+				AA3ABD9E2260B03D008A6365 /* Vendor.swift */,
 				AA3ABD9322607844008A6365 /* PersonalInformation.swift */,
 			);
 			path = AmusementPark;
@@ -166,6 +169,7 @@
 				AA3ABD9922607844008A6365 /* PersonalInformation.swift in Sources */,
 				AA3ABD912260778D008A6365 /* Checkpoint.swift in Sources */,
 				AA3ABD9B22607844008A6365 /* Guest.swift in Sources */,
+				AA3ABD9F2260B03D008A6365 /* Vendor.swift in Sources */,
 				AA3ABD9C22607844008A6365 /* Errors.swift in Sources */,
 				AA3ABD9A22607844008A6365 /* Extensions.swift in Sources */,
 				AA3ABD9D22607844008A6365 /* Manager.swift in Sources */,

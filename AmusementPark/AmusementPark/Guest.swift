@@ -13,7 +13,7 @@ import Foundation
 class Guest: Entrant {
     
     // MARK: - Properties
-
+    
     var entrantType: EntrantType
     var entrantCategory: EntrantCategory
     var areaAccess: [Area] {
@@ -58,7 +58,49 @@ class Guest: Entrant {
     func stringForPersonalInformation() -> String {
         return "Guest - \(self.entrantType) - No personal information to display"
     }
+
+   
 }
+
+
+class SeniorGuest: Guest {
+    var birthDate: Date
+    var personalInformation: PersonalInformation
+    
+    init(birthDate: String, personalInformation: PersonalInformation) throws {
+        
+        if let birthDate = birthDate.createDate() { // test if birth date is renseigned
+            self.birthDate = birthDate
+        } else {
+            throw EntrantError.missingDateOfBirth
+        }
+        self.personalInformation = personalInformation
+
+        super.init(entrantType: EntrantType.senior)
+    }
+    
+    override func swipe(at checkpoint: Checkpoint) -> Bool {
+        return checkpoint.validateAccess(entrant: self)
+    }
+}
+
+
+class SeasonPassGuest: Guest {
+    var personalInformation: PersonalInformation
+    
+    init(personalInformation: PersonalInformation) {
+        
+        self.personalInformation = personalInformation
+        
+        super.init(entrantType: EntrantType.seasonPass)
+    }
+    
+    override func swipe(at checkpoint: Checkpoint) -> Bool {
+        return checkpoint.validateAccess(entrant: self)
+    }
+    
+}
+
 
 // ChildGuest class, inherits from Guest
 class ChildGuest: Guest {
@@ -69,7 +111,7 @@ class ChildGuest: Guest {
     
     
     // MARK: - Methods
-
+    
     // Failable initializer in case of date of birth empty and child too old
     init(birthDate: String) throws {
         
@@ -79,7 +121,7 @@ class ChildGuest: Guest {
             throw EntrantError.missingDateOfBirth
         }
         super.init(entrantType: EntrantType.freeChild)
-
+        
         // Test if the age is correct i.e <= 5
         guard validateDateOfBirth() else {
             throw EntrantError.tooOld
@@ -103,7 +145,7 @@ class ChildGuest: Guest {
     
     
     override func stringForPersonalInformation() -> String {
-        var returnString = "Guest - child - Personal Information: Date of birth: \(self.birthDate). "
+        var returnString = "\(self.birthDate)"
         if self.birthDate.isBirthday() { // Add a message if it's the Entrant's birthday
             returnString += "Hey It's your birthday today: Happy Birthday 🎂 🎈"
         }

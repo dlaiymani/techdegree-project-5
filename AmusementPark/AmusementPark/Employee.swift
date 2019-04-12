@@ -22,6 +22,7 @@ class Employee: Entrant {
         case .food: return [.amusement, .kitchen]
         case .ride: return [.amusement, .rideControl]
         case .maintenance: return [.amusement, .kitchen, .rideControl, .maintenance]
+        case .contract: return [.amusement, .kitchen]
         default: return []
             
         }
@@ -30,7 +31,11 @@ class Employee: Entrant {
         return [RideAccess.all]
     }
     var discountAccess: [DiscountAccess] {
-        return [DiscountAccess.onFood(percentage: 15), DiscountAccess.onMerchandise(percentage: 25)]
+        if self.entrantType == .contract {
+            return [DiscountAccess.onFood(percentage: 0), DiscountAccess.onMerchandise(percentage: 0)]
+        } else {
+            return [DiscountAccess.onFood(percentage: 15), DiscountAccess.onMerchandise(percentage: 25)]
+        }
     }
 
     var personalInformation: PersonalInformation
