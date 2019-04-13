@@ -27,7 +27,7 @@ class Vendor: Entrant {
         return [DiscountAccess.onFood(percentage: 0), DiscountAccess.onMerchandise(percentage: 0)]
     }
     
-    var personalInformation: PersonalInformation
+    var personalInformation: PersonalInformation?
     var birthDate: Date
     var visitDate = Date()
     var company: String
@@ -70,7 +70,7 @@ class Vendor: Entrant {
     
     
     func stringForPersonalInformation() -> String {
-        return "Vendor - \(self.entrantType) - Personal Information: \(self.personalInformation.description)"
+        return "Vendor - \(self.entrantType) - Personal Information: \(self.personalInformation!.description)"
     }
     
 }

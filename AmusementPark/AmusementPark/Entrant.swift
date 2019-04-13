@@ -33,24 +33,24 @@ enum DiscountAccess {
     }
 }
 enum EntrantType: String {
-    case classic
-    case vip
-    case freeChild
-    case senior
-    case seasonPass
-    case food
-    case ride
-    case maintenance
-    case contract
-    case manager
-    case vendor
+    case classic = "Adult"
+    case vip = "VIP"
+    case freeChild = "Child"
+    case senior = "Senior"
+    case seasonPass = "Season"
+    case food = "Food"
+    case ride = "Ride"
+    case maintenance = "Maintenance"
+    case contract = "Contract"
+    case manager = "Manager"
+    case vendor = "Vendor"
 }
 
 enum EntrantCategory: String {
-    case guest
-    case employee
-    case manager
-    case vendor
+    case guest = "Guest"
+    case employee = "Employee"
+    case manager = "Manager"
+    case vendor = "Vendor"
 }
 
 protocol Entrant {
@@ -59,6 +59,7 @@ protocol Entrant {
     var discountAccess: [DiscountAccess] { get }
     var entrantCategory: EntrantCategory { get }
     var entrantType: EntrantType { get }
+    var personalInformation: PersonalInformation? { get set }
     
     
     // Return a String for the personal information of an entrant

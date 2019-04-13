@@ -26,7 +26,7 @@ class Manager: Entrant {
         return [DiscountAccess.onFood(percentage: 25), DiscountAccess.onMerchandise(percentage: 25)]
     }
     
-    var personalInformation: PersonalInformation
+    var personalInformation: PersonalInformation?
     
     // MARK: - Methods
     
@@ -47,7 +47,7 @@ class Manager: Entrant {
     
     
     func stringForPersonalInformation() -> String {
-        return "Manager - \(self.entrantType) - Personal Information: \(self.personalInformation.description)"
+        return "Manager - \(self.entrantType) - Personal Information: \(self.personalInformation!.description)"
     }
     
 }

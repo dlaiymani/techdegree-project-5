@@ -332,11 +332,17 @@ class ViewController: UIViewController {
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        var entrant: Entrant?
+        
         if segue.identifier == "GeneratePassSegue" {
             switch (entrantCategory, entrantType) {
+                
+            case (.guest, .classic), (.guest, .vip):
+                entrant = Guest(entrantType: entrantType)
+                
             case (.guest, .freeChild):
                 do {
-                    let child = try ChildGuest(birthDate: dateOfBirthTextField.text!)
+                    entrant = try ChildGuest(birthDate: dateOfBirthTextField.text!)
                 } catch EntrantError.missingDateOfBirth {
                     alert(withTitle: "Date of birth is missing", andMessage: "Please type a date of birth")
                     
@@ -348,7 +354,7 @@ class ViewController: UIViewController {
            case (.guest, .seasonPass):
             if let personalInformation = createPersonalInformation() {
                 do {
-                    let guest = try SeasonPassGuest(personalInformation: personalInformation)
+                        entrant = try SeasonPassGuest(personalInformation: personalInformation)
                 } catch EntrantError.addressImcomplete {
                     alert(withTitle: "Incomplete Personal Information", andMessage: "Please fill the correct data")
                 } catch let error {
@@ -359,7 +365,7 @@ class ViewController: UIViewController {
             case (.guest, .senior):
                 if let personalInformation = createPersonalInformation(), let dateOfBirth = dateOfBirthTextField.text {
                     do {
-                        let guest = try SeniorGuest(birthDate: dateOfBirth, personalInformation: personalInformation)
+                            entrant = try SeniorGuest(birthDate: dateOfBirth, personalInformation: personalInformation)
                     } catch EntrantError.addressImcomplete {
                         alert(withTitle: "Incomplete Personal Information", andMessage: "Please fill the correct data")
                     } catch EntrantError.missingDateOfBirth {
@@ -371,7 +377,7 @@ class ViewController: UIViewController {
            case (.employee, .food), (.employee, .maintenance), (.employee, .ride), (.employee, .contract):
             if let personalInformation = createPersonalInformation() {
                 do {
-                    let guest = try Employee(entrantType: entrantType, personalInformation: personalInformation)
+                        entrant = try Employee(entrantType: entrantType, personalInformation: personalInformation)
                 } catch EntrantError.addressImcomplete {
                     alert(withTitle: "Incomplete Personal Information", andMessage: "Please fill the correct data")
                 } catch let error {
@@ -382,7 +388,7 @@ class ViewController: UIViewController {
            case (.manager, .manager):
             if let personalInformation = createPersonalInformation() {
                 do {
-                    let guest = try Manager(personalInformation: personalInformation)
+                        entrant = try Manager(personalInformation: personalInformation)
                 } catch EntrantError.addressImcomplete {
                     alert(withTitle: "Incomplete Personal Information", andMessage: "Please fill the correct data")
                 } catch let error {
@@ -393,7 +399,7 @@ class ViewController: UIViewController {
            case (.vendor, .vendor):
             if let personalInformation = createPersonalInformation(), let birthDate = dateOfBirthTextField.text, let company = companyTextField.text {
                 do {
-                    let guest = try Vendor(birthDate: birthDate, personalInformation: personalInformation, company: company)
+                        entrant = try Vendor(birthDate: birthDate, personalInformation: personalInformation, company: company)
                 } catch EntrantError.addressImcomplete {
                     alert(withTitle: "Incomplete Personal Information", andMessage: "Please fill the correct data")
                 } catch EntrantError.missingCompany {
@@ -405,7 +411,12 @@ class ViewController: UIViewController {
             default:
                 fatalError("Unexpected error")
             }
+            if let entrant = entrant, let destinationViewController = segue.destination as? NewPassViewController {
+                destinationViewController.entrant = entrant
+            }
         }
+        
+        
     }
     
     

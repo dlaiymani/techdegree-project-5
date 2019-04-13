@@ -43,11 +43,14 @@ class Guest: Entrant {
         }
     }
     
+    var personalInformation: PersonalInformation?
     // MARK: - Methods
     
     init(entrantType: EntrantType) {
         self.entrantType = entrantType
         self.entrantCategory = .guest
+        self.personalInformation = nil
+        
     }
     
     // Swipe at a checkpoint
@@ -58,14 +61,12 @@ class Guest: Entrant {
     func stringForPersonalInformation() -> String {
         return "Guest - \(self.entrantType) - No personal information to display"
     }
-
-   
+    
 }
 
 
 class SeniorGuest: Guest {
     var birthDate: Date
-    var personalInformation: PersonalInformation
     
     init(birthDate: String, personalInformation: PersonalInformation) throws {
         
@@ -78,29 +79,30 @@ class SeniorGuest: Guest {
         if !personalInformation.validatePersonalInformationForSenior() {
             throw EntrantError.addressImcomplete
         }
+        super.init(entrantType: EntrantType.senior)
+
         self.personalInformation = personalInformation
 
-        super.init(entrantType: EntrantType.senior)
     }
     
     override func swipe(at checkpoint: Checkpoint) -> Bool {
         return checkpoint.validateAccess(entrant: self)
     }
+    
 }
 
 
 class SeasonPassGuest: Guest {
-    var personalInformation: PersonalInformation
     
     init(personalInformation: PersonalInformation) throws {
         
         if !personalInformation.validatePersonalInformation() {
             throw EntrantError.addressImcomplete
         }
-        
+        super.init(entrantType: EntrantType.seasonPass)
+
         self.personalInformation = personalInformation
         
-        super.init(entrantType: EntrantType.seasonPass)
     }
     
     override func swipe(at checkpoint: Checkpoint) -> Bool {
@@ -134,6 +136,7 @@ class ChildGuest: Guest {
         guard validateDateOfBirth() else {
             throw EntrantError.tooOld
         }
+        self.personalInformation = nil
     }
     
     // Test if the child is too old or not
@@ -159,4 +162,5 @@ class ChildGuest: Guest {
         }
         return returnString
     }
+
 }

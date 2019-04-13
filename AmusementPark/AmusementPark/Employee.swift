@@ -38,7 +38,7 @@ class Employee: Entrant {
         }
     }
 
-    var personalInformation: PersonalInformation
+    var personalInformation: PersonalInformation?
     
     // MARK: - Methods
     
@@ -60,7 +60,7 @@ class Employee: Entrant {
     }
     
     func stringForPersonalInformation() -> String {
-        return "Employee - \(self.entrantType) - Personal Information: \(self.personalInformation.description)"
+        return "Employee - \(self.entrantType) - Personal Information: \(self.personalInformation!.description)"
     }
     
 }
