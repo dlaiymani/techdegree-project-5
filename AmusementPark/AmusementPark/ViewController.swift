@@ -96,7 +96,7 @@ class ViewController: UIViewController {
             displayVendorBar()
             entrantCategory = .vendor
         default:
-            fatalError()
+            fatalError("Unexpected error")
             
         }
         categoryButtonTapped(sender: entrantTypeButtons[0])
@@ -134,7 +134,7 @@ class ViewController: UIViewController {
                 entrantType = .vip
                 managePopulateButton(isEnabled: false)
             default:
-                fatalError()
+                fatalError("Unexpected error")
             }
         case .employee:
             switch sender {
@@ -147,14 +147,14 @@ class ViewController: UIViewController {
             case entrantTypeButtons[3]:
                 entrantType = .contract
             default:
-                fatalError()
+                fatalError("Unexpected error")
             }
         case .manager:
             entrantType = .manager
         case .vendor:
             entrantType = .vendor
         default:
-            fatalError()
+            fatalError("Unexpected error")
         }
         manageTextField()
         
@@ -310,10 +310,8 @@ class ViewController: UIViewController {
         case (.vendor, .vendor):
             let personalInformation = PersonalInformation(firstName: "Howard", lastName: "Wolowitz", streetAddress: "", city: "", state: "", zipCode: "")
             populateForm(personalInformation: personalInformation, birthDate: "1970-09-25", company: "Apple")
-
         default:
-
-            fatalError()
+            fatalError("Unexpected error")
         }
     }
     
@@ -340,9 +338,10 @@ class ViewController: UIViewController {
                 do {
                     let child = try ChildGuest(birthDate: dateOfBirthTextField.text!)
                 } catch EntrantError.missingDateOfBirth {
-                    print("Date of birth is missing")
+                    alert(withTitle: "Date of birth is missing", andMessage: "Please type a date of birth")
+                    
                 } catch EntrantError.tooOld {
-                    print("Child is too old")
+                    alert(withTitle: "Child is too old", andMessage: "You can not benefit fro Free Child advantages")
                 } catch let error {
                     print("Unexpected error \(error)")
                 }
@@ -351,7 +350,7 @@ class ViewController: UIViewController {
                 do {
                     let guest = try SeasonPassGuest(personalInformation: personalInformation)
                 } catch EntrantError.addressImcomplete {
-                    print("Address incomplete")
+                    alert(withTitle: "Incomplete Personal Information", andMessage: "Please fill the correct data")
                 } catch let error {
                     print("Unexpected error \(error)")
                 }
@@ -362,9 +361,9 @@ class ViewController: UIViewController {
                     do {
                         let guest = try SeniorGuest(birthDate: dateOfBirth, personalInformation: personalInformation)
                     } catch EntrantError.addressImcomplete {
-                        print("Address incomplete")
+                        alert(withTitle: "Incomplete Personal Information", andMessage: "Please fill the correct data")
                     } catch EntrantError.missingDateOfBirth {
-                        print("Date of birth is missing")
+                        alert(withTitle: "Date of birth is missing", andMessage: "Please type a date of birth")
                     } catch let error {
                         print("Unexpected error \(error)")
                     }
@@ -374,7 +373,7 @@ class ViewController: UIViewController {
                 do {
                     let guest = try Employee(entrantType: entrantType, personalInformation: personalInformation)
                 } catch EntrantError.addressImcomplete {
-                    print("Address incomplete")
+                    alert(withTitle: "Incomplete Personal Information", andMessage: "Please fill the correct data")
                 } catch let error {
                     print("Unexpected error \(error)")
                 }
@@ -385,7 +384,7 @@ class ViewController: UIViewController {
                 do {
                     let guest = try Manager(personalInformation: personalInformation)
                 } catch EntrantError.addressImcomplete {
-                    print("Address incomplete")
+                    alert(withTitle: "Incomplete Personal Information", andMessage: "Please fill the correct data")
                 } catch let error {
                     print("Unexpected error \(error)")
                 }
@@ -396,17 +395,15 @@ class ViewController: UIViewController {
                 do {
                     let guest = try Vendor(birthDate: birthDate, personalInformation: personalInformation, company: company)
                 } catch EntrantError.addressImcomplete {
-                    print("Address incomplete")
+                    alert(withTitle: "Incomplete Personal Information", andMessage: "Please fill the correct data")
                 } catch EntrantError.missingCompany {
-                    print("Company is missing")
+                    alert(withTitle: "Company is missing", andMessage: "Please enter your company name")
                 } catch let error {
                     print("Unexpected error \(error)")
                 }
             }
-
             default:
-                
-                fatalError()
+                fatalError("Unexpected error")
             }
         }
     }
@@ -421,13 +418,23 @@ class ViewController: UIViewController {
         return nil
     }
     
+    func alert(withTitle title: String, andMessage message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(action)
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    
+    
+    // MARK: - Keyboard Management
     
     @objc func keyboardWillShow(_ notification: Notification) {
         
         if let info = notification.userInfo, let keyboardFrame = info[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             let frame = keyboardFrame.cgRectValue
             bottomConstraint.constant = frame.size.height + 10
-            topConstraint.constant = -frame.size.height - 10
+            topConstraint.constant = -frame.size.height + 140
             
             UIView.animate(withDuration: 0.8) {
                 self.view.layoutIfNeeded()
