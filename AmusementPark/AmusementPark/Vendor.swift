@@ -17,9 +17,7 @@ class Vendor: Entrant {
     // MARK: - Properties
     var entrantCategory: EntrantCategory
     var entrantType: EntrantType
-    var areaAccess: [Area] {
-        return [.amusement, .kitchen]
-    }
+    var areaAccess: [Area]
     var rideAccess: [RideAccess] {
         return [RideAccess.all]
     }
@@ -45,7 +43,6 @@ class Vendor: Entrant {
         }
         
         if let company = company {
-            print("yep")
             if company != "" {
                 self.company = company
             } else {
@@ -61,6 +58,7 @@ class Vendor: Entrant {
         self.personalInformation = personalInformation
         self.entrantCategory = .manager
         self.entrantType = .manager
+        self.areaAccess = [.amusement, .kitchen]
     }
     
     // Swipe at a checkpoint

@@ -12,21 +12,12 @@ import Foundation
 // Employee class. Implements Entrant protocol
 // Computed properties compute the different rights depending of the entrant type (food, ride...)
 class Employee: Entrant {
-    
     // MARK: - Properties
     
     var entrantType: EntrantType
     var entrantCategory: EntrantCategory
-    var areaAccess: [Area] {
-        switch self.entrantType {
-        case .food: return [.amusement, .kitchen]
-        case .ride: return [.amusement, .rideControl]
-        case .maintenance: return [.amusement, .kitchen, .rideControl, .maintenance]
-        case .contract: return [.amusement, .kitchen]
-        default: return []
-            
-        }
-    }
+    var areaAccess: [Area]
+    
     var rideAccess: [RideAccess] {
         return [RideAccess.all]
     }
@@ -47,6 +38,18 @@ class Employee: Entrant {
         self.entrantCategory = .employee
         self.entrantType = entrantType
         
+        switch self.entrantType {
+        case .food:
+            areaAccess = [.amusement, .kitchen]
+        case .ride:
+            areaAccess = [.amusement, .rideControl]
+        case .maintenance:
+            areaAccess = [.amusement, .kitchen, .rideControl, .maintenance]
+        default:
+            areaAccess = []
+            
+        }
+        
         if !personalInformation.validatePersonalInformation() {
             throw EntrantError.addressImcomplete
         }
@@ -62,5 +65,23 @@ class Employee: Entrant {
     func stringForPersonalInformation() -> String {
         return "Employee - \(self.entrantType) - Personal Information: \(self.personalInformation!.description)"
     }
+}
+
+class ContractEmployee: Employee {
+    var project: Project
     
+    init(project: Project, personalInformation: PersonalInformation) throws {
+        
+        self.project = project
+
+        try! super.init(entrantType: .contract, personalInformation: personalInformation)
+        self.areaAccess = project.authorizedAreaAccess()
+        
+        if !personalInformation.validatePersonalInformation() {
+            throw EntrantError.addressImcomplete
+        }
+        
+        self.personalInformation = personalInformation
+        
+    }
 }

@@ -13,12 +13,11 @@ import Foundation
 // Computed properties compute the different rights
 class Manager: Entrant {
     
+    
     // MARK: - Properties
     var entrantCategory: EntrantCategory
     var entrantType: EntrantType
-    var areaAccess: [Area] {
-        return [.amusement, .kitchen, .rideControl, .maintenance, .office]
-    }
+    var areaAccess: [Area]
     var rideAccess: [RideAccess] {
         return [RideAccess.all]
     }
@@ -35,6 +34,8 @@ class Manager: Entrant {
         if !personalInformation.validatePersonalInformation() {
             throw EntrantError.addressImcomplete
         }
+        
+        self.areaAccess = [.amusement, .kitchen, .rideControl, .maintenance, .office]
         self.personalInformation = personalInformation
         self.entrantCategory = .manager
         self.entrantType = .manager

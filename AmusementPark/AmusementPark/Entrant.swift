@@ -54,7 +54,7 @@ enum EntrantCategory: String {
 }
 
 protocol Entrant {
-    var areaAccess: [Area] { get }
+    var areaAccess: [Area] { get set }
     var rideAccess: [RideAccess] { get }
     var discountAccess: [DiscountAccess] { get }
     var entrantCategory: EntrantCategory { get }

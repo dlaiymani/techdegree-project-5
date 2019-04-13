@@ -266,7 +266,9 @@ class ViewController: UIViewController {
             disableTextField(atIndex: 5)
             disableTextField(atIndex: 0)
             disableTextField(atIndex: 1)
-            disableTextField(atIndex: 2)
+            if entrantType != .contract {
+                disableTextField(atIndex: 2)
+            }
         case (.vendor, .vendor):
             disableAllTextFields()
             enableTextField(atIndex: 0)
@@ -287,26 +289,26 @@ class ViewController: UIViewController {
             dateOfBirthTextField.text = "2016-04-03"
         case (.guest, .seasonPass):
             let personalInformation = PersonalInformation(firstName: "Season", lastName: "Pass", streetAddress: "1 Infinite Loop", city: "Pasadena", state: "California", zipCode: "91001")
-            populateForm(personalInformation: personalInformation, birthDate: nil, company: nil)
+            populateForm(personalInformation: personalInformation)
         case (.guest, .senior):
             let personalInformation = PersonalInformation(firstName: "Senior", lastName: "Senior", streetAddress: "", city: "", state: "", zipCode: "")
-            populateForm(personalInformation: personalInformation, birthDate: "1960-01-01", company: nil)
+            populateForm(personalInformation: personalInformation, birthDate: "1960-01-01")
 
         case (.employee, .food):
             let personalInformation = PersonalInformation(firstName: "Sheldon", lastName: "Cooper", streetAddress: "1 Infinite Loop", city: "Pasadena", state: "California", zipCode: "91001")
-            populateForm(personalInformation: personalInformation, birthDate: nil, company: nil)
+            populateForm(personalInformation: personalInformation)
         case (.employee, .maintenance):
             let personalInformation = PersonalInformation(firstName: "Amy", lastName: "Fowler", streetAddress: "2 Infinite Loop", city: "Pasadena", state: "New York", zipCode: "91001")
-            populateForm(personalInformation: personalInformation, birthDate: nil, company: nil)
+            populateForm(personalInformation: personalInformation)
         case (.employee, .ride):
             let personalInformation = PersonalInformation(firstName: "Penny", lastName: "Hofstader", streetAddress: "3 Infinite Loop", city: "Ohmaha", state: "Nebraska", zipCode: "68197")
-            populateForm(personalInformation: personalInformation, birthDate: nil, company: nil)
+            populateForm(personalInformation: personalInformation)
         case (.employee, .contract):
             let personalInformation = PersonalInformation(firstName: "Leonard", lastName: "Hofstader", streetAddress: "4 Infinite Loop", city: "Pasadena", state: "California", zipCode: "90000")
-            populateForm(personalInformation: personalInformation, birthDate: nil, company: nil)
+            populateForm(personalInformation: personalInformation, projectNumber: "1001")
         case (.manager, .manager):
             let personalInformation = PersonalInformation(firstName: "Rajesh", lastName: "Kootrapali", streetAddress: "1 Infinite Loop", city: "Pasadena", state: "California", zipCode: "91001")
-            populateForm(personalInformation: personalInformation, birthDate: nil, company: nil)
+            populateForm(personalInformation: personalInformation)
         case (.vendor, .vendor):
             let personalInformation = PersonalInformation(firstName: "Howard", lastName: "Wolowitz", streetAddress: "", city: "", state: "", zipCode: "")
             populateForm(personalInformation: personalInformation, birthDate: "1970-09-25", company: "Apple")
@@ -315,12 +317,16 @@ class ViewController: UIViewController {
         }
     }
     
-    func populateForm(personalInformation: PersonalInformation, birthDate: String?, company: String?) {
+    func populateForm(personalInformation: PersonalInformation, birthDate: String? = nil, company: String? = nil, projectNumber: String? = nil) {
         if let birthDate = birthDate {
             dateOfBirthTextField.text = birthDate
         }
         if let company = company {
             companyTextField.text = company
+        }
+        
+        if let projectNumber = projectNumber {
+            projectNumberTextField.text = projectNumber
         }
         firstNameTextField.text = personalInformation.firstName
         lastNameTextField.text = personalInformation.lastName
@@ -374,7 +380,7 @@ class ViewController: UIViewController {
                         print("Unexpected error \(error)")
                     }
                 }
-           case (.employee, .food), (.employee, .maintenance), (.employee, .ride), (.employee, .contract):
+           case (.employee, .food), (.employee, .maintenance), (.employee, .ride):
             if let personalInformation = createPersonalInformation() {
                 do {
                         entrant = try Employee(entrantType: entrantType, personalInformation: personalInformation)
@@ -384,7 +390,20 @@ class ViewController: UIViewController {
                     print("Unexpected error \(error)")
                 }
             }
-
+                
+            case (.employee, .contract):
+                if let personalInformation = createPersonalInformation() {
+                    do {
+                        if let projectNumber = projectNumberTextField.text {
+                            let project = Project(projectNumber: projectNumber)
+                            entrant = try ContractEmployee(project: project, personalInformation: personalInformation)
+                        }
+                    } catch EntrantError.addressImcomplete {
+                        alert(withTitle: "Incomplete Personal Information", andMessage: "Please fill the correct data")
+                    } catch let error {
+                        print("Unexpected error \(error)")
+                    }
+                }
            case (.manager, .manager):
             if let personalInformation = createPersonalInformation() {
                 do {

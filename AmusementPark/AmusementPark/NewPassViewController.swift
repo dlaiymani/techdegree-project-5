@@ -31,6 +31,9 @@ class NewPassViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        rideAccessLabel.text = ""
+        skipTheLinesLabel.text = ""
+        
         if let entrant = entrant {
             displayName(for: entrant)
             displayCategoryAndType(for: entrant)
@@ -76,9 +79,44 @@ class NewPassViewController: UIViewController {
     }
     
     
-    @IBAction func doneTapped(_ sender: UIBarButtonItem) {
-        dismiss(animated: true, completion: nil)
+    // MARK: - Test part
+
+    @IBAction func areaAccessButtonTapped(_ sender: UIButton) {
+        let areas: [Area] = [.amusement, .kitchen, .maintenance, .office, .rideControl]
+        
+        var testString = "Access to: "
+        if let entrant = entrant {
+            for area in areas {
+                if entrant.areaAccess.contains(area) {
+                    testString += "\(area)-"
+                }
+            }
+        }
+        testString = testString.dropLast() + ""
+        testLabel.text = testString
+        
     }
+    
+    @IBAction func rideAccessButtonTapped(_ sender: UIButton) {
+        
+        testLabel.text = "\(rideAccessLabel.text!) - \(skipTheLinesLabel.text!)"
+    }
+    
+    @IBAction func discountAccessButtonTapped(_ sender: UIButton) {
+        
+        testLabel.text = "\(foodDiscountLabel.text!) - \(merchDiscountLabel.text!)"
+    }
+    
+    @IBAction func createNewPass(_ sender: UIButton) {
+        let alertController = UIAlertController(title: "Pass Created", message: "Back to main screen", preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default) { (alertAction) in
+            self.dismiss(animated: true, completion: nil)
+        }
+        alertController.addAction(action)
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    
     
 
 }

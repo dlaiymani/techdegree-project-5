@@ -16,14 +16,7 @@ class Guest: Entrant {
     
     var entrantType: EntrantType
     var entrantCategory: EntrantCategory
-    var areaAccess: [Area] {
-        switch self.entrantType {
-        case .classic: return [.amusement]
-        case .vip: return [.amusement]
-        case .freeChild: return [.amusement]
-        default: return []
-        }
-    }
+    var areaAccess: [Area]
     var rideAccess: [RideAccess] {
         switch self.entrantType {
         case .classic: return [.all]
@@ -49,6 +42,13 @@ class Guest: Entrant {
     init(entrantType: EntrantType) {
         self.entrantType = entrantType
         self.entrantCategory = .guest
+        switch self.entrantType {
+        case .classic, .vip, .freeChild:
+            areaAccess = [.amusement]
+        default:
+            areaAccess = []
+        }
+        
         self.personalInformation = nil
         
     }
