@@ -19,7 +19,7 @@ class Vendor: Entrant {
     var entrantType: EntrantType
     var areaAccess: [Area]
     var rideAccess: [RideAccess] {
-        return [RideAccess.all]
+        return []
     }
     var discountAccess: [DiscountAccess] {
         return [DiscountAccess.onFood(percentage: 0), DiscountAccess.onMerchandise(percentage: 0)]
@@ -28,13 +28,13 @@ class Vendor: Entrant {
     var personalInformation: PersonalInformation?
     var birthDate: Date
     var visitDate = Date()
-    var company: String
+    var company: Company
     
     
     // MARK: - Methods
     
     // Failable initializer in case of incomplete address
-    init(birthDate: String, personalInformation: PersonalInformation, company: String?) throws {
+    init(birthDate: String, personalInformation: PersonalInformation, company: Company) throws {
         
         if let birthDate = birthDate.createDate() { // test if birth date is renseigned
             self.birthDate = birthDate
@@ -42,12 +42,8 @@ class Vendor: Entrant {
             throw EntrantError.missingDateOfBirth
         }
         
-        if let company = company {
-            if company != "" {
+        if company.companyName != "" {
                 self.company = company
-            } else {
-                throw EntrantError.missingCompany
-            }
         } else {
             throw EntrantError.missingCompany
         }
@@ -58,7 +54,8 @@ class Vendor: Entrant {
         self.personalInformation = personalInformation
         self.entrantCategory = .manager
         self.entrantType = .manager
-        self.areaAccess = [.amusement, .kitchen]
+        self.areaAccess = company.authorizedAreaAccess()
+
     }
     
     // Swipe at a checkpoint

@@ -100,6 +100,7 @@ class NewPassViewController: UIViewController {
     @IBAction func rideAccessButtonTapped(_ sender: UIButton) {
         
         testLabel.text = "\(rideAccessLabel.text!) - \(skipTheLinesLabel.text!)"
+
     }
     
     @IBAction func discountAccessButtonTapped(_ sender: UIButton) {

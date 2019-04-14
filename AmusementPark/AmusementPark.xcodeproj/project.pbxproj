@@ -23,6 +23,7 @@
 		AA3ABD9F2260B03D008A6365 /* Vendor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3ABD9E2260B03D008A6365 /* Vendor.swift */; };
 		AA3ABDA12261D9EF008A6365 /* NewPassViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3ABDA02261D9EF008A6365 /* NewPassViewController.swift */; };
 		AA3ABDA322623897008A6365 /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3ABDA222623897008A6365 /* Project.swift */; };
+		AA3ABDA52263051C008A6365 /* Company.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3ABDA42263051C008A6365 /* Company.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		AA3ABD9E2260B03D008A6365 /* Vendor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vendor.swift; sourceTree = "<group>"; };
 		AA3ABDA02261D9EF008A6365 /* NewPassViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPassViewController.swift; sourceTree = "<group>"; };
 		AA3ABDA222623897008A6365 /* Project.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
+		AA3ABDA42263051C008A6365 /* Company.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Company.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +95,7 @@
 				AA3ABD9E2260B03D008A6365 /* Vendor.swift */,
 				AA3ABD9322607844008A6365 /* PersonalInformation.swift */,
 				AA3ABDA222623897008A6365 /* Project.swift */,
+				AA3ABDA42263051C008A6365 /* Company.swift */,
 			);
 			path = AmusementPark;
 			sourceTree = "<group>";
@@ -179,6 +182,7 @@
 				AA3ABD9B22607844008A6365 /* Guest.swift in Sources */,
 				AA3ABD9F2260B03D008A6365 /* Vendor.swift in Sources */,
 				AA3ABD9C22607844008A6365 /* Errors.swift in Sources */,
+				AA3ABDA52263051C008A6365 /* Company.swift in Sources */,
 				AA3ABD9A22607844008A6365 /* Extensions.swift in Sources */,
 				AA3ABD9D22607844008A6365 /* Manager.swift in Sources */,
 			);

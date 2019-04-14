@@ -31,7 +31,7 @@ extension String {
     // Create a date from a String
     func createDate() -> Date? {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
+        dateFormatter.dateFormat = "MM/dd/yyyy"
         dateFormatter.timeZone = TimeZone(abbreviation: "GMT+0:00")
         dateFormatter.locale = Locale(identifier: "en_US_POSIX")
         return dateFormatter.date(from: self) ?? nil

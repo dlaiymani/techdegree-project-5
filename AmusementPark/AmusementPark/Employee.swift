@@ -19,7 +19,11 @@ class Employee: Entrant {
     var areaAccess: [Area]
     
     var rideAccess: [RideAccess] {
-        return [RideAccess.all]
+        if self.entrantType == .contract {
+            return []
+        } else {
+            return [RideAccess.all]
+        }
     }
     var discountAccess: [DiscountAccess] {
         if self.entrantType == .contract {
