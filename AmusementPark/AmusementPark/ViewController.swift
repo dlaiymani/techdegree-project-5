@@ -286,7 +286,7 @@ class ViewController: UIViewController {
     @IBAction func populateDataTapped(_ sender: UIButton) {
         switch (entrantCategory, entrantType) {
         case (.guest, .freeChild):
-            dateOfBirthTextField.text = "03/04/2016"
+            dateOfBirthTextField.text = "04/03/2016"
         case (.guest, .seasonPass):
             let personalInformation = PersonalInformation(firstName: "Season", lastName: "Pass", streetAddress: "1 Infinite Loop", city: "Pasadena", state: "California", zipCode: "91001")
             populateForm(personalInformation: personalInformation)
@@ -310,7 +310,7 @@ class ViewController: UIViewController {
             populateForm(personalInformation: personalInformation)
         case (.vendor, .vendor):
             let personalInformation = PersonalInformation(firstName: "Howard", lastName: "Wolowitz", streetAddress: "", city: "", state: "", zipCode: "")
-            populateForm(personalInformation: personalInformation, birthDate: "25/09/1970", company: "Acme")
+            populateForm(personalInformation: personalInformation, birthDate: "09/25/1970", company: "Acme")
         default:
             fatalError("Unexpected error")
         }
@@ -425,6 +425,10 @@ class ViewController: UIViewController {
                     alert(withTitle: "Incomplete Personal Information", andMessage: "Please fill the correct data")
                 } catch EntrantError.missingCompany {
                     alert(withTitle: "Company is missing", andMessage: "Please enter your company name")
+                } catch EntrantError.missingDateOfBirth {
+                    alert(withTitle: "Date of birth is missing", andMessage: "Please type a date of birth")
+                } catch EntrantError.incorrectDate {
+                    alert(withTitle: "Incorrect Format for Date of Birth", andMessage: "Please type a date of birth")
                 } catch let error {
                     print("Unexpected error \(error)")
                 }

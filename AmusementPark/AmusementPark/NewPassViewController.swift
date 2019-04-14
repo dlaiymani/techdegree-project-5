@@ -27,6 +27,8 @@ class NewPassViewController: UIViewController {
     
     // MARK: - Stored Properties
     var entrant: Entrant?
+    let soundEffectsPlayer = SoundEffectPlayer()
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -93,19 +95,45 @@ class NewPassViewController: UIViewController {
             }
         }
         testString = testString.dropLast() + ""
-        testLabel.text = testString
-        
+        if testString == "" {
+            testLabel.text = "Acces Denied"
+            soundEffectsPlayer.playSound(for: .accessDenied)
+        } else {
+            testLabel.text = testString
+            soundEffectsPlayer.playSound(for: .accessGranted)
+        }
+
     }
     
     @IBAction func rideAccessButtonTapped(_ sender: UIButton) {
         
-        testLabel.text = "\(rideAccessLabel.text!) - \(skipTheLinesLabel.text!)"
-
+        var rideAccessString = ""
+        if let rideAccess = rideAccessLabel.text {
+            rideAccessString += rideAccess
+        }
+        
+        if let skipTheLine = skipTheLinesLabel.text {
+            if rideAccessString == "" {
+                rideAccessString += skipTheLine
+            } else {
+                rideAccessString += " - \(skipTheLine)"
+            }
+        }
+        
+        testLabel.text = rideAccessString
+        
+        if rideAccessString != "" {
+            soundEffectsPlayer.playSound(for: .accessGranted)
+        } else {
+            testLabel.text = "Access Denied"
+            soundEffectsPlayer.playSound(for: .accessDenied)
+        }
     }
     
     @IBAction func discountAccessButtonTapped(_ sender: UIButton) {
         
         testLabel.text = "\(foodDiscountLabel.text!) - \(merchDiscountLabel.text!)"
+
     }
     
     @IBAction func createNewPass(_ sender: UIButton) {

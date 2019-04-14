@@ -13,4 +13,5 @@ enum EntrantError: Error {
     case tooOld
     case addressImcomplete
     case missingCompany
+    case incorrectDate
 }

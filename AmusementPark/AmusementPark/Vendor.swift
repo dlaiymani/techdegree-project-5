@@ -36,10 +36,14 @@ class Vendor: Entrant {
     // Failable initializer in case of incomplete address
     init(birthDate: String, personalInformation: PersonalInformation, company: Company) throws {
         
-        if let birthDate = birthDate.createDate() { // test if birth date is renseigned
+        if birthDate == "" { // test if birth date is renseigned
+            throw EntrantError.missingDateOfBirth
+        }
+        
+        if let birthDate = birthDate.createDate() { // test if birth date  format is correct
             self.birthDate = birthDate
         } else {
-            throw EntrantError.missingDateOfBirth
+            throw EntrantError.incorrectDate
         }
         
         if company.companyName != "" {

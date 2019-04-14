@@ -70,10 +70,14 @@ class SeniorGuest: Guest {
     
     init(birthDate: String, personalInformation: PersonalInformation) throws {
         
-        if let birthDate = birthDate.createDate() { // test if birth date is renseigned
+        if birthDate == "" { // test if birth date is renseigned
+            throw EntrantError.missingDateOfBirth
+        }
+        
+        if let birthDate = birthDate.createDate() { // test if birth date  format is correct
             self.birthDate = birthDate
         } else {
-            throw EntrantError.missingDateOfBirth
+            throw EntrantError.incorrectDate
         }
         
         if !personalInformation.validatePersonalInformationForSenior() {
@@ -125,10 +129,14 @@ class ChildGuest: Guest {
     // Failable initializer in case of date of birth empty and child too old
     init(birthDate: String) throws {
         
+        if birthDate == "" { // test if birth date is renseigned
+            throw EntrantError.missingDateOfBirth
+        }
+        
         if let birthDate = birthDate.createDate() { // test if birth date is renseigned
             self.birthDate = birthDate
         } else {
-            throw EntrantError.missingDateOfBirth
+            throw EntrantError.incorrectDate
         }
         super.init(entrantType: EntrantType.freeChild)
         

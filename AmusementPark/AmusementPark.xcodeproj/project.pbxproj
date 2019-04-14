@@ -24,6 +24,9 @@
 		AA3ABDA12261D9EF008A6365 /* NewPassViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3ABDA02261D9EF008A6365 /* NewPassViewController.swift */; };
 		AA3ABDA322623897008A6365 /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3ABDA222623897008A6365 /* Project.swift */; };
 		AA3ABDA52263051C008A6365 /* Company.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3ABDA42263051C008A6365 /* Company.swift */; };
+		AA3ABDA722630EF9008A6365 /* Audio.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3ABDA622630EF9008A6365 /* Audio.swift */; };
+		AA3ABDAA22631395008A6365 /* AccessGranted.wav in Resources */ = {isa = PBXBuildFile; fileRef = AA3ABDA822631395008A6365 /* AccessGranted.wav */; };
+		AA3ABDAB22631395008A6365 /* AccessDenied.wav in Resources */ = {isa = PBXBuildFile; fileRef = AA3ABDA922631395008A6365 /* AccessDenied.wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +49,9 @@
 		AA3ABDA02261D9EF008A6365 /* NewPassViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPassViewController.swift; sourceTree = "<group>"; };
 		AA3ABDA222623897008A6365 /* Project.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
 		AA3ABDA42263051C008A6365 /* Company.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Company.swift; sourceTree = "<group>"; };
+		AA3ABDA622630EF9008A6365 /* Audio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Audio.swift; sourceTree = "<group>"; };
+		AA3ABDA822631395008A6365 /* AccessGranted.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = AccessGranted.wav; path = ../../AudioFiles/AccessGranted.wav; sourceTree = "<group>"; };
+		AA3ABDA922631395008A6365 /* AccessDenied.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = AccessDenied.wav; path = ../../AudioFiles/AccessDenied.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,18 +90,21 @@
 				AA208450225F82980010A93C /* Main.storyboard */,
 				AA208453225F82990010A93C /* Assets.xcassets */,
 				AA208455225F82990010A93C /* LaunchScreen.storyboard */,
+				AA3ABDA922631395008A6365 /* AccessDenied.wav */,
+				AA3ABDA822631395008A6365 /* AccessGranted.wav */,
 				AA208458225F82990010A93C /* Info.plist */,
 				AA3ABD8E2260774A008A6365 /* Entrant.swift */,
 				AA3ABD902260778D008A6365 /* Checkpoint.swift */,
 				AA3ABD9222607843008A6365 /* Employee.swift */,
 				AA3ABD9622607844008A6365 /* Errors.swift */,
-				AA3ABD9422607844008A6365 /* Extensions.swift */,
 				AA3ABD9522607844008A6365 /* Guest.swift */,
 				AA3ABD9722607844008A6365 /* Manager.swift */,
 				AA3ABD9E2260B03D008A6365 /* Vendor.swift */,
 				AA3ABD9322607844008A6365 /* PersonalInformation.swift */,
 				AA3ABDA222623897008A6365 /* Project.swift */,
 				AA3ABDA42263051C008A6365 /* Company.swift */,
+				AA3ABDA622630EF9008A6365 /* Audio.swift */,
+				AA3ABD9422607844008A6365 /* Extensions.swift */,
 			);
 			path = AmusementPark;
 			sourceTree = "<group>";
@@ -158,8 +167,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA3ABDAA22631395008A6365 /* AccessGranted.wav in Resources */,
 				AA208457225F82990010A93C /* LaunchScreen.storyboard in Resources */,
 				AA208454225F82990010A93C /* Assets.xcassets in Resources */,
+				AA3ABDAB22631395008A6365 /* AccessDenied.wav in Resources */,
 				AA208452225F82980010A93C /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -180,6 +191,7 @@
 				AA3ABD912260778D008A6365 /* Checkpoint.swift in Sources */,
 				AA3ABDA12261D9EF008A6365 /* NewPassViewController.swift in Sources */,
 				AA3ABD9B22607844008A6365 /* Guest.swift in Sources */,
+				AA3ABDA722630EF9008A6365 /* Audio.swift in Sources */,
 				AA3ABD9F2260B03D008A6365 /* Vendor.swift in Sources */,
 				AA3ABD9C22607844008A6365 /* Errors.swift in Sources */,
 				AA3ABDA52263051C008A6365 /* Company.swift in Sources */,
