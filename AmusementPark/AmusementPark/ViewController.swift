@@ -539,10 +539,18 @@ class ViewController: UIViewController {
     
     @objc func keyboardWillShow(_ notification: Notification) {
         
+
         if let info = notification.userInfo, let keyboardFrame = info[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             let frame = keyboardFrame.cgRectValue
-            bottomConstraint.constant = frame.size.height + 10
-            topConstraint.constant = -frame.size.height + 140
+
+            if UIApplication.shared.statusBarOrientation.isLandscape {
+                bottomConstraint.constant = frame.size.height - 20
+                topConstraint.constant = -frame.size.height + 210
+                
+            } else {
+                bottomConstraint.constant = frame.size.height + 10
+                topConstraint.constant = -frame.size.height + 140
+            }
             
             UIView.animate(withDuration: 0.8) {
                 self.view.layoutIfNeeded()
