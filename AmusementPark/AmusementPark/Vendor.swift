@@ -10,7 +10,7 @@ import Foundation
 
 
 
-// Vendor class. Implements Entrant protocol
+// Vendor class. Implements Entrant protocol + company
 // Computed properties compute the different rights
 class Vendor: Entrant {
     
@@ -33,7 +33,7 @@ class Vendor: Entrant {
     
     // MARK: - Methods
     
-    // Failable initializer in case of incomplete address
+    // Failable initializer in case of incomplete address, birth date format incorrect and/or missing
     init(birthDate: String, personalInformation: PersonalInformation, company: Company) throws {
         
         if birthDate == "" { // test if birth date is renseigned
@@ -66,7 +66,6 @@ class Vendor: Entrant {
     func swipe(at checkpoint: Checkpoint) -> Bool {
         return checkpoint.validateAccess(entrant: self)
     }
-    
     
     func stringForPersonalInformation() -> String {
         return "Vendor - \(self.entrantType) - Personal Information: \(self.personalInformation!.description)"

@@ -26,7 +26,7 @@ class NewPassViewController: UIViewController {
     @IBOutlet weak var testLabel: UILabel!
     
     // MARK: - Stored Properties
-    var entrant: Entrant?
+    var entrant: Entrant? // Entrant to test
     let soundEffectsPlayer = SoundEffectPlayer()
 
 
@@ -45,6 +45,7 @@ class NewPassViewController: UIViewController {
     }
     
 
+    // Set of functions displaying the main info of the entrant
     func displayName(for entrant: Entrant) {
         switch (entrant.entrantCategory, entrant.entrantType) {
         case (.guest, .freeChild), (.guest, .vip), (.guest, .classic):
@@ -54,7 +55,7 @@ class NewPassViewController: UIViewController {
                     nameLabel.text = "Happy Birthday 🎂 🎈"
                 }
             }
-        default: // personalInformation can be nil
+        default: // personalInformation cannot be nil
             nameLabel.text = "\(entrant.personalInformation!.firstName) \(entrant.personalInformation!.firstName)"
         }
     }
@@ -64,7 +65,6 @@ class NewPassViewController: UIViewController {
     }
     
     func displayAccess(for entrant: Entrant) {
-
         if entrant.rideAccess.contains(.all) {
             rideAccessLabel.text = "Unlimited Access to Rides"
             skipTheLinesLabel.text = "Not allowed to skip the lines ❌ "
@@ -88,12 +88,14 @@ class NewPassViewController: UIViewController {
         
         var testString = "Access to: "
         if let entrant = entrant {
-            for area in areas {
+            for area in areas { // testing for the different areas
                 if entrant.areaAccess.contains(area) {
                     testString += "\(area)-"
                 }
             }
         }
+        
+        // Displaying the result (and playing a sound)
         testString = testString.dropLast() + ""
         if testString == "" {
             testLabel.text = "Acces Denied"
@@ -107,11 +109,13 @@ class NewPassViewController: UIViewController {
     
     @IBAction func rideAccessButtonTapped(_ sender: UIButton) {
         
+        // Ride access
         var rideAccessString = ""
         if let rideAccess = rideAccessLabel.text {
             rideAccessString += rideAccess
         }
         
+        // Skip the lines access
         if let skipTheLine = skipTheLinesLabel.text {
             if rideAccessString == "" {
                 rideAccessString += skipTheLine
@@ -120,6 +124,7 @@ class NewPassViewController: UIViewController {
             }
         }
         
+        // Displaying the result (and playing a sound)
         testLabel.text = rideAccessString
         
         if rideAccessString != "" {
@@ -130,12 +135,12 @@ class NewPassViewController: UIViewController {
         }
     }
     
+    
     @IBAction func discountAccessButtonTapped(_ sender: UIButton) {
-        
         testLabel.text = "\(foodDiscountLabel.text!) - \(merchDiscountLabel.text!)"
-
     }
     
+    // Creat new pass (i.e. displayong an alert view) and back to the main screen
     @IBAction func createNewPass(_ sender: UIButton) {
         let alertController = UIAlertController(title: "Pass Created", message: "Back to main screen", preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .default) { (alertAction) in
@@ -144,8 +149,4 @@ class NewPassViewController: UIViewController {
         alertController.addAction(action)
         present(alertController, animated: true, completion: nil)
     }
-    
-    
-    
-
 }

@@ -64,10 +64,11 @@ class Guest: Entrant {
     
 }
 
-
+// SeniorGuest class: Guest + birth date + personal information
 class SeniorGuest: Guest {
     var birthDate: Date
     
+    // Failable initializer in case of incomplete address, birth date format incorrect and/or missing
     init(birthDate: String, personalInformation: PersonalInformation) throws {
         
         if birthDate == "" { // test if birth date is renseigned
@@ -95,9 +96,10 @@ class SeniorGuest: Guest {
     
 }
 
-
+// SeniorGuest class: Guest + personal information
 class SeasonPassGuest: Guest {
     
+    // Failable initializer in case of incomplete address
     init(personalInformation: PersonalInformation) throws {
         
         if !personalInformation.validatePersonalInformation() {
@@ -116,7 +118,7 @@ class SeasonPassGuest: Guest {
 }
 
 
-// ChildGuest class, inherits from Guest
+// ChildGuest class: Guest + birth date
 class ChildGuest: Guest {
 
     // MARK: - Properties

@@ -71,9 +71,11 @@ class Employee: Entrant {
     }
 }
 
+// Contract Employee: inherits from Employee + has a project
 class ContractEmployee: Employee {
     var project: Project
     
+    // Failable initializer in case of incomplete address
     init(project: Project, personalInformation: PersonalInformation) throws {
         
         self.project = project
