@@ -346,6 +346,139 @@ class ViewController: UIViewController {
     }
     
     
+    // Set of functions which create the different Entrant
+    func createClassicAndVIPGest() -> Entrant? {
+        return Guest(entrantType: entrantType)
+    }
+    
+    func createFreeChildGuest() -> Entrant? {
+        
+        var childGuest: Entrant?
+        
+        do {
+            childGuest = try ChildGuest(birthDate: dateOfBirthTextField.text!)
+        } catch EntrantError.missingDateOfBirth {
+            alert(withTitle: "Date of birth is missing", andMessage: "Please type a date of birth")
+        } catch EntrantError.tooOld {
+            alert(withTitle: "Child is too old", andMessage: "You can not benefit fro Free Child advantages")
+        } catch EntrantError.incorrectDate {
+            alert(withTitle: "Incorrect Format for Date of Birth", andMessage: "Please type a date of birth")
+        } catch let error {
+            print("Unexpected error \(error)")
+        }
+        
+        return childGuest
+    }
+    
+    func createSeansonPassGuest() -> Entrant?  {
+        
+        var seasonPassGuest: Entrant?
+        
+        if let personalInformation = createPersonalInformation() {
+            do {
+                seasonPassGuest = try SeasonPassGuest(personalInformation: personalInformation)
+            } catch EntrantError.addressImcomplete {
+                alert(withTitle: "Incomplete Personal Information", andMessage: "Please fill the correct data")
+            } catch let error {
+                print("Unexpected error \(error)")
+            }
+        }
+        return seasonPassGuest
+    }
+    
+    
+    func createSeniorGuest() -> Entrant? {
+        var seniorGuest: Entrant?
+        
+        if let personalInformation = createPersonalInformation(), let dateOfBirth = dateOfBirthTextField.text {
+            do {
+                seniorGuest = try SeniorGuest(birthDate: dateOfBirth, personalInformation: personalInformation)
+            } catch EntrantError.addressImcomplete {
+                alert(withTitle: "Incomplete Personal Information", andMessage: "Please fill the correct data")
+            } catch EntrantError.missingDateOfBirth {
+                alert(withTitle: "Date of birth is missing", andMessage: "Please type a date of birth")
+            } catch let error {
+                print("Unexpected error \(error)")
+            }
+        }
+        return seniorGuest
+    }
+    
+    func createEmployee() -> Entrant? {
+        var employee: Entrant?
+        
+        if let personalInformation = createPersonalInformation() {
+            do {
+                employee = try Employee(entrantType: entrantType, personalInformation: personalInformation)
+            } catch EntrantError.addressImcomplete {
+                alert(withTitle: "Incomplete Personal Information", andMessage: "Please fill the correct data")
+            } catch let error {
+                print("Unexpected error \(error)")
+            }
+        }
+        return employee
+    }
+    
+    
+    func createContractEmployee() -> Entrant? {
+        var contractEmployee: Entrant?
+        
+        if let personalInformation = createPersonalInformation() {
+            do {
+                if let projectNumber = projectNumberTextField.text {
+                    let project = Project(projectNumber: projectNumber)
+                    contractEmployee = try ContractEmployee(project: project, personalInformation: personalInformation)
+                }
+            } catch EntrantError.addressImcomplete {
+                alert(withTitle: "Incomplete Personal Information", andMessage: "Please fill the correct data")
+            } catch let error {
+                print("Unexpected error \(error)")
+            }
+        }
+        
+        return contractEmployee
+    }
+    
+    func createManager() -> Entrant? {
+        var manager: Entrant?
+        if let personalInformation = createPersonalInformation() {
+            do {
+                manager = try Manager(personalInformation: personalInformation)
+            } catch EntrantError.addressImcomplete {
+                alert(withTitle: "Incomplete Personal Information", andMessage: "Please fill the correct data")
+            } catch let error {
+                print("Unexpected error \(error)")
+            }
+        }
+        
+        return manager
+    }
+    
+    func createVendor() -> Entrant? {
+        var vendor: Entrant?
+        if let personalInformation = createPersonalInformation(), let birthDate = dateOfBirthTextField.text {
+            do {
+                if let companyName = companyTextField.text {
+                    let company = Company(companyName: companyName)
+                    vendor = try Vendor(birthDate: birthDate, personalInformation: personalInformation, company: company)
+                }
+            } catch EntrantError.addressImcomplete {
+                alert(withTitle: "Incomplete Personal Information", andMessage: "Please fill the correct data")
+            } catch EntrantError.missingCompany {
+                alert(withTitle: "Company is missing", andMessage: "Please enter your company name")
+            } catch EntrantError.missingDateOfBirth {
+                alert(withTitle: "Date of birth is missing", andMessage: "Please type a date of birth")
+            } catch EntrantError.incorrectDate {
+                alert(withTitle: "Incorrect Format for Date of Birth", andMessage: "Please type a date of birth")
+            } catch let error {
+                print("Unexpected error \(error)")
+            }
+        }
+        
+        return vendor
+    }
+    
+    // Create the Entrant if everything is correct then passe it to the next controller 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         var entrant: Entrant?
         
@@ -353,105 +486,30 @@ class ViewController: UIViewController {
             switch (entrantCategory, entrantType) {
                 
             case (.guest, .classic), (.guest, .vip):
-                entrant = Guest(entrantType: entrantType)
-                
+                entrant = createClassicAndVIPGest()
             case (.guest, .freeChild):
-                do {
-                    entrant = try ChildGuest(birthDate: dateOfBirthTextField.text!)
-                } catch EntrantError.missingDateOfBirth {
-                    alert(withTitle: "Date of birth is missing", andMessage: "Please type a date of birth")
-                    
-                } catch EntrantError.tooOld {
-                    alert(withTitle: "Child is too old", andMessage: "You can not benefit fro Free Child advantages")
-                } catch let error {
-                    print("Unexpected error \(error)")
-                }
-           case (.guest, .seasonPass):
-            if let personalInformation = createPersonalInformation() {
-                do {
-                        entrant = try SeasonPassGuest(personalInformation: personalInformation)
-                } catch EntrantError.addressImcomplete {
-                    alert(withTitle: "Incomplete Personal Information", andMessage: "Please fill the correct data")
-                } catch let error {
-                    print("Unexpected error \(error)")
-                }
-            }
-
+                entrant = createFreeChildGuest()
+            case (.guest, .seasonPass):
+                entrant = createSeansonPassGuest()
             case (.guest, .senior):
-                if let personalInformation = createPersonalInformation(), let dateOfBirth = dateOfBirthTextField.text {
-                    do {
-                            entrant = try SeniorGuest(birthDate: dateOfBirth, personalInformation: personalInformation)
-                    } catch EntrantError.addressImcomplete {
-                        alert(withTitle: "Incomplete Personal Information", andMessage: "Please fill the correct data")
-                    } catch EntrantError.missingDateOfBirth {
-                        alert(withTitle: "Date of birth is missing", andMessage: "Please type a date of birth")
-                    } catch let error {
-                        print("Unexpected error \(error)")
-                    }
-                }
-           case (.employee, .food), (.employee, .maintenance), (.employee, .ride):
-            if let personalInformation = createPersonalInformation() {
-                do {
-                        entrant = try Employee(entrantType: entrantType, personalInformation: personalInformation)
-                } catch EntrantError.addressImcomplete {
-                    alert(withTitle: "Incomplete Personal Information", andMessage: "Please fill the correct data")
-                } catch let error {
-                    print("Unexpected error \(error)")
-                }
-            }
-                
+                entrant = createSeniorGuest()
+            case (.employee, .food), (.employee, .maintenance), (.employee, .ride):
+                entrant = createEmployee()
             case (.employee, .contract):
-                if let personalInformation = createPersonalInformation() {
-                    do {
-                        if let projectNumber = projectNumberTextField.text {
-                            let project = Project(projectNumber: projectNumber)
-                            entrant = try ContractEmployee(project: project, personalInformation: personalInformation)
-                        }
-                    } catch EntrantError.addressImcomplete {
-                        alert(withTitle: "Incomplete Personal Information", andMessage: "Please fill the correct data")
-                    } catch let error {
-                        print("Unexpected error \(error)")
-                    }
-                }
-           case (.manager, .manager):
-            if let personalInformation = createPersonalInformation() {
-                do {
-                        entrant = try Manager(personalInformation: personalInformation)
-                } catch EntrantError.addressImcomplete {
-                    alert(withTitle: "Incomplete Personal Information", andMessage: "Please fill the correct data")
-                } catch let error {
-                    print("Unexpected error \(error)")
-                }
-            }
-
-           case (.vendor, .vendor):
-            if let personalInformation = createPersonalInformation(), let birthDate = dateOfBirthTextField.text, let company = companyTextField.text {
-                do {
-                    if let companyName = companyTextField.text {
-                        let company = Company(companyName: companyName)
-                        entrant = try Vendor(birthDate: birthDate, personalInformation: personalInformation, company: company)
-                    }
-                } catch EntrantError.addressImcomplete {
-                    alert(withTitle: "Incomplete Personal Information", andMessage: "Please fill the correct data")
-                } catch EntrantError.missingCompany {
-                    alert(withTitle: "Company is missing", andMessage: "Please enter your company name")
-                } catch EntrantError.missingDateOfBirth {
-                    alert(withTitle: "Date of birth is missing", andMessage: "Please type a date of birth")
-                } catch EntrantError.incorrectDate {
-                    alert(withTitle: "Incorrect Format for Date of Birth", andMessage: "Please type a date of birth")
-                } catch let error {
-                    print("Unexpected error \(error)")
-                }
-            }
+                entrant = createContractEmployee()
+            case (.manager, .manager):
+                entrant = createManager()
+            case (.vendor, .vendor):
+                entrant = createVendor()
             default:
                 fatalError("Unexpected error")
             }
+            
+            // If entrant created i.e. all information are correct
             if let entrant = entrant, let destinationViewController = segue.destination as? NewPassViewController {
                 destinationViewController.entrant = entrant
             }
         }
-        
-        
     }
     
     
