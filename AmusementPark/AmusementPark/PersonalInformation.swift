@@ -28,7 +28,7 @@ struct PersonalInformation: CustomStringConvertible  {
         }
     }
     
-    func validatePersonalInformationForSenior() -> Bool {
+    func validateName() -> Bool {
         if firstName == "" || lastName == "" {
             return false
         } else {
@@ -36,8 +36,9 @@ struct PersonalInformation: CustomStringConvertible  {
         }
     }
     
-    func validatePersonalInformationForVendor() -> Bool {
-        if firstName == "" || lastName == "" {
+    func validateLengths() -> Bool {
+        if firstName.count > 50 || lastName.count > 50 || streetAddress.count > 100 || city.count > 50
+            || state.count > 50 || zipCode.count > 6 {
             return false
         } else {
             return true

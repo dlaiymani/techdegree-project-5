@@ -12,7 +12,11 @@ import Foundation
 class Project {
     var projectNumber: String
     
-    init(projectNumber: String) {
+    init(projectNumber: String) throws {
+        
+        if projectNumber.count > 6 {
+            throw EntrantError.incorrectProjectNumber
+        }
         self.projectNumber = projectNumber
     }
     

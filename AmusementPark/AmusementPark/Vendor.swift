@@ -52,7 +52,7 @@ class Vendor: Entrant {
             throw EntrantError.missingCompany
         }
         
-        if !personalInformation.validatePersonalInformationForVendor() {
+        if !personalInformation.validateName() {
             throw EntrantError.addressImcomplete
         }
         self.personalInformation = personalInformation

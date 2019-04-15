@@ -81,7 +81,7 @@ class SeniorGuest: Guest {
             throw EntrantError.incorrectDate
         }
         
-        if !personalInformation.validatePersonalInformationForSenior() {
+        if !personalInformation.validateName() {
             throw EntrantError.addressImcomplete
         }
         super.init(entrantType: EntrantType.senior)

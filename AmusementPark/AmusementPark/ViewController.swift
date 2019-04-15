@@ -426,11 +426,13 @@ class ViewController: UIViewController {
         if let personalInformation = createPersonalInformation() {
             do {
                 if let projectNumber = projectNumberTextField.text {
-                    let project = Project(projectNumber: projectNumber)
+                    let project = try Project(projectNumber: projectNumber)
                     contractEmployee = try ContractEmployee(project: project, personalInformation: personalInformation)
                 }
             } catch EntrantError.addressImcomplete {
                 alert(withTitle: "Incomplete Personal Information", andMessage: "Please fill the correct data")
+            } catch EntrantError.incorrectProjectNumber {
+                alert(withTitle: "Incorrect format for #Project", andMessage: "#Project must contains 6 digits")
             } catch let error {
                 print("Unexpected error \(error)")
             }
