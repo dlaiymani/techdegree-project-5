@@ -69,6 +69,7 @@ class ViewController: UIViewController {
         }
     }
     
+    // Color in gray all the buttons except the one is tapped
     func grayButtons(_ buttonsArray: [UIButton], except buttonTapped: UIButton) {
         for button in buttonsArray {
             if buttonTapped != button {
@@ -79,35 +80,33 @@ class ViewController: UIViewController {
         }
     }
     
+    // Mangement of the type bar according to the choosen category
     @objc func entrantTypeButtonTapped(sender: UIButton) {
         grayButtons(entrantCategoryButtons, except: sender)
         
         switch sender {
         case entrantCategoryButtons[0]:
-            displayGuestBar()
+          //  displayGuestBar()
             entrantCategory = .guest
         case entrantCategoryButtons[1]:
-            displayEmployeeBar()
+          //  displayEmployeeBar()
             entrantCategory = .employee
         case entrantCategoryButtons[2]:
-            displayManagerBar()
+         //   displayManagerBar()
             entrantCategory = .manager
         case entrantCategoryButtons[3]:
-            displayVendorBar()
+         //   displayVendorBar()
             entrantCategory = .vendor
         default:
             fatalError("Unexpected error")
-            
         }
-        categoryButtonTapped(sender: entrantTypeButtons[0])
-
-        print("\(entrantCategory) - \(entrantType)")
+        displayTypeBar(for: entrantCategory)
+        categoryButtonTapped(sender: entrantTypeButtons[0])  // Child is the default choice
         manageTextField()
 
     }
     
     // Entrant Type bar managment
-    
     func affectActionToCategoryButtons() {
         for button in entrantTypeButtons {
             button.addTarget(self, action: #selector(categoryButtonTapped(sender:)), for: .touchUpInside)
@@ -125,14 +124,14 @@ class ViewController: UIViewController {
                 entrantType = .freeChild
             case entrantTypeButtons[1]:
                 entrantType = .classic
-                managePopulateButton(isEnabled: false)
+                managePopulateButton(isEnabled: false) // no info so no need to populate
             case entrantTypeButtons[2]:
                 entrantType = .senior
             case entrantTypeButtons[3]:
                 entrantType = .seasonPass
             case entrantTypeButtons[4]:
                 entrantType = .vip
-                managePopulateButton(isEnabled: false)
+                managePopulateButton(isEnabled: false) // no info so no need to populate
             default:
                 fatalError("Unexpected error")
             }
@@ -157,10 +156,9 @@ class ViewController: UIViewController {
             fatalError("Unexpected error")
         }
         manageTextField()
-        
-        print("\(entrantCategory) - \(entrantType)")
     }
     
+    // Enable or disable the Populate Button
     func managePopulateButton(isEnabled: Bool) {
         if isEnabled == true {
             populateDataButton.isEnabled = true
@@ -171,6 +169,7 @@ class ViewController: UIViewController {
         }
     }
     
+    // Enable Category Buttons
     func enableCategoryButtons() {
         for button in entrantTypeButtons {
             button.isEnabled = true
@@ -178,12 +177,31 @@ class ViewController: UIViewController {
         }
     }
     
+    // Disable Populate Button
     func disableCategoryButtons() {
         for button in entrantTypeButtons {
             button.isEnabled = false
             button.isHidden = true
         }
     }
+    
+
+    func displayTypeBar(for entrantCategory: EntrantCategory) {
+        enableCategoryButtons()
+        switch entrantCategory {
+        case .guest:
+            displayGuestBar()
+        case .employee:
+            displayEmployeeBar()
+        case .manager:
+            disableCategoryButtons() // No need to display a type bar
+        case .vendor:
+            disableCategoryButtons() // No need to display a type bar
+
+        }
+    }
+    
+    
     func displayGuestBar() {
         enableCategoryButtons()
         entrantTypeButtons[0].setTitle("Child", for: .normal)
@@ -203,24 +221,22 @@ class ViewController: UIViewController {
         entrantTypeButtons[4].isEnabled = false
         entrantTypeButtons[4].setTitle("", for: .normal)
         entrantTypeButtons[4].isHidden = true
-
     }
 
-    func displayManagerBar() {
-        disableCategoryButtons()
-    }
     
-    
-    func displayVendorBar() {
-        disableCategoryButtons()
-    }
-    
-    // textFields management
-    
+    //  Basic textFields management
     func disableAllTextFields() {
         for textField in textFieldsArray {
             textField.isEnabled = false
             textField.backgroundColor = .lightGray
+            textField.text = ""
+        }
+    }
+    
+    func enableAllTextFields() {
+        for textField in textFieldsArray {
+            textField.isEnabled = true
+            textField.backgroundColor = .white
             textField.text = ""
         }
     }
@@ -232,22 +248,14 @@ class ViewController: UIViewController {
 
     }
     
-    func enableAllTextFields() {
-        for textField in textFieldsArray {
-            textField.isEnabled = true
-            textField.backgroundColor = .white
-            textField.text = ""
-        }
-    }
-    
     
     func enableTextField(atIndex index: Int) {
         textFieldsArray[index].isEnabled = true
         textFieldsArray[index].backgroundColor = .white
         textFieldsArray[index].text = ""
-
     }
     
+    // Enable or disable the correct textfields according to the (type, category) choosen entrant
     func manageTextField() {
         switch (entrantCategory, entrantType) {
         case (.guest, .freeChild):
@@ -278,11 +286,11 @@ class ViewController: UIViewController {
         default:
             fatalError()
         }
-        
     }
     
     // MARK: - Populate Data
     
+    // When Populate Button is tapped: initialize the data and display them into the form
     @IBAction func populateDataTapped(_ sender: UIButton) {
         switch (entrantCategory, entrantType) {
         case (.guest, .freeChild):
@@ -316,6 +324,8 @@ class ViewController: UIViewController {
         }
     }
     
+    
+    // Display the test data into the form
     func populateForm(personalInformation: PersonalInformation, birthDate: String? = nil, company: String? = nil, projectNumber: String? = nil) {
         if let birthDate = birthDate {
             dateOfBirthTextField.text = birthDate
@@ -445,6 +455,7 @@ class ViewController: UIViewController {
     }
     
     
+    // Create Personal Information from input text fields
     func createPersonalInformation() -> PersonalInformation? {
         if let dateOfBirth = dateOfBirthTextField.text, let ssn = ssnTextField.text, let projectNumber = projectNumberTextField.text,
             let firstName = firstNameTextField.text, let lastName = lastNameTextField.text, let company = companyTextField.text, let street = streetAddressTextField.text,
@@ -454,6 +465,7 @@ class ViewController: UIViewController {
         return nil
     }
     
+    // Display an alertView with a given title and a givent message
     func alert(withTitle title: String, andMessage message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .default, handler: nil)
