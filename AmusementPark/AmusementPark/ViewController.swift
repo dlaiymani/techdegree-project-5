@@ -152,8 +152,6 @@ class ViewController: UIViewController {
             entrantType = .manager
         case .vendor:
             entrantType = .vendor
-        default:
-            fatalError("Unexpected error")
         }
         manageTextField()
     }
@@ -517,8 +515,7 @@ class ViewController: UIViewController {
     
     // Create Personal Information from input text fields
     func createPersonalInformation() -> PersonalInformation? {
-        if let dateOfBirth = dateOfBirthTextField.text, let ssn = ssnTextField.text, let projectNumber = projectNumberTextField.text,
-            let firstName = firstNameTextField.text, let lastName = lastNameTextField.text, let company = companyTextField.text, let street = streetAddressTextField.text,
+        if let firstName = firstNameTextField.text, let lastName = lastNameTextField.text, let company = companyTextField.text, let street = streetAddressTextField.text,
             let city = cityTextField.text, let state = stateTextField.text, let zip = zipCodeTextField.text {
                 return PersonalInformation(firstName: firstName, lastName: lastName, streetAddress: street, city: city, state: state, zipCode: zip)
         }
