@@ -86,6 +86,8 @@ class SeniorGuest: Guest {
         if !personalInformation.validateName() {
             throw EntrantError.addressImcomplete
         }
+        
+        
         super.init(entrantType: EntrantType.senior)
 
         self.personalInformation = personalInformation
@@ -107,6 +109,11 @@ class SeasonPassGuest: Guest {
         if !personalInformation.validatePersonalInformation() {
             throw EntrantError.addressImcomplete
         }
+        
+        if !personalInformation.validateZipCode() {
+            throw EntrantError.incorrectZipCode
+        }
+        
         super.init(entrantType: EntrantType.seasonPass)
 
         self.personalInformation = personalInformation

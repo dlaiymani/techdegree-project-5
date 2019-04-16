@@ -377,6 +377,8 @@ class ViewController: UIViewController {
                 seasonPassGuest = try SeasonPassGuest(personalInformation: personalInformation)
             } catch EntrantError.addressImcomplete {
                 alert(withTitle: "Incomplete Personal Information", andMessage: "Please fill the correct data")
+            } catch EntrantError.incorrectZipCode {
+                alert(withTitle: "Incorrect ZipCode", andMessage: "Please enter a correct ZipCode")
             } catch let error {
                 print("Unexpected error \(error)")
             }
@@ -410,6 +412,8 @@ class ViewController: UIViewController {
                 employee = try Employee(entrantType: entrantType, personalInformation: personalInformation)
             } catch EntrantError.addressImcomplete {
                 alert(withTitle: "Incomplete Personal Information", andMessage: "Please fill the correct data")
+            } catch EntrantError.incorrectZipCode {
+                alert(withTitle: "Incorrect ZipCode", andMessage: "Please enter a correct ZipCode")
             } catch let error {
                 print("Unexpected error \(error)")
             }
@@ -430,7 +434,9 @@ class ViewController: UIViewController {
             } catch EntrantError.addressImcomplete {
                 alert(withTitle: "Incomplete Personal Information", andMessage: "Please fill the correct data")
             } catch EntrantError.incorrectProjectNumber {
-                alert(withTitle: "Incorrect format for #Project", andMessage: "#Project must contains 6 digits")
+                alert(withTitle: "Incorrect format for #Project", andMessage: "#Project must contains at most 6 characters")
+            } catch EntrantError.incorrectZipCode {
+                alert(withTitle: "Incorrect ZipCode", andMessage: "Please enter a correct ZipCode")
             } catch let error {
                 print("Unexpected error \(error)")
             }
@@ -446,6 +452,8 @@ class ViewController: UIViewController {
                 manager = try Manager(personalInformation: personalInformation)
             } catch EntrantError.addressImcomplete {
                 alert(withTitle: "Incomplete Personal Information", andMessage: "Please fill the correct data")
+            } catch EntrantError.incorrectZipCode {
+                alert(withTitle: "Incorrect ZipCode", andMessage: "Please enter a correct ZipCode")
             } catch let error {
                 print("Unexpected error \(error)")
             }

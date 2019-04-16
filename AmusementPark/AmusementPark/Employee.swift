@@ -58,6 +58,8 @@ class Employee: Entrant {
             throw EntrantError.addressImcomplete
         }
         
+        
+        
         self.personalInformation = personalInformation
     }
     
@@ -79,13 +81,19 @@ class ContractEmployee: Employee {
     init(project: Project, personalInformation: PersonalInformation) throws {
         
         self.project = project
-
-        try! super.init(entrantType: .contract, personalInformation: personalInformation)
-        self.areaAccess = project.authorizedAreaAccess()
         
         if !personalInformation.validatePersonalInformation() {
             throw EntrantError.addressImcomplete
         }
+        
+        if !personalInformation.validateZipCode() {
+            throw EntrantError.incorrectZipCode
+        }
+        
+        try! super.init(entrantType: .contract, personalInformation: personalInformation)
+        self.areaAccess = project.authorizedAreaAccess()
+        
+        
         
         self.personalInformation = personalInformation
         

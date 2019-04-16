@@ -65,7 +65,7 @@ class NewPassViewController: UIViewController {
                 }
             }
         default: // personalInformation cannot be nil
-            nameLabel.text = "\(entrant.personalInformation!.firstName) \(entrant.personalInformation!.firstName)"
+            nameLabel.text = "\(entrant.personalInformation!.firstName) \(entrant.personalInformation!.lastName)"
         }
     }
 
@@ -221,7 +221,7 @@ class NewPassViewController: UIViewController {
         
     }
     
-    // Creat new pass (i.e. displayong an alert view) and back to the main screen
+    // Create new pass (i.e. displayong an alert view) and back to the main screen
     @IBAction func createNewPass(_ sender: UIButton) {
         let alertController = UIAlertController(title: "Pass Created", message: "Back to main screen", preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .default) { (alertAction) in

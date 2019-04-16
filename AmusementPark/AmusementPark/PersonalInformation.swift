@@ -36,12 +36,11 @@ struct PersonalInformation: CustomStringConvertible  {
         }
     }
     
-    func validateLengths() -> Bool {
-        if firstName.count > 50 || lastName.count > 50 || streetAddress.count > 100 || city.count > 50
-            || state.count > 50 || zipCode.count > 6 {
-            return false
-        } else {
+    func validateZipCode() -> Bool {
+        if zipCode.count == 5 {
             return true
+        } else {
+            return false
         }
     }
 }

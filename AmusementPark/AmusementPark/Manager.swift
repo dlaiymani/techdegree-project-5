@@ -35,6 +35,10 @@ class Manager: Entrant {
             throw EntrantError.addressImcomplete
         }
         
+        if !personalInformation.validateZipCode() {
+            throw EntrantError.incorrectZipCode
+        }
+        
         self.areaAccess = [.amusement, .kitchen, .rideControl, .maintenance, .office]
         self.personalInformation = personalInformation
         self.entrantCategory = .manager

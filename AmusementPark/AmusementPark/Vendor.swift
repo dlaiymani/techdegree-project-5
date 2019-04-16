@@ -55,6 +55,7 @@ class Vendor: Entrant {
         if !personalInformation.validateName() {
             throw EntrantError.addressImcomplete
         }
+        
         self.personalInformation = personalInformation
         self.entrantCategory = .vendor
         self.entrantType = .vendor

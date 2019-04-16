@@ -15,4 +15,5 @@ enum EntrantError: Error {
     case missingCompany
     case incorrectDate
     case incorrectProjectNumber
+    case incorrectZipCode
 }
