@@ -297,7 +297,7 @@ class ViewController: UIViewController {
             let personalInformation = PersonalInformation(firstName: "Season", lastName: "Pass", streetAddress: "1 Infinite Loop", city: "Pasadena", state: "California", zipCode: "91001")
             populateForm(personalInformation: personalInformation)
         case (.guest, .senior):
-            let personalInformation = PersonalInformation(firstName: "Senior", lastName: "Senior", streetAddress: "", city: "", state: "", zipCode: "")
+            let personalInformation = PersonalInformation(firstName: "Senior", lastName: "Pass", streetAddress: "", city: "", state: "", zipCode: "")
             populateForm(personalInformation: personalInformation, birthDate: "01/01/1960")
         case (.employee, .food):
             let personalInformation = PersonalInformation(firstName: "Sheldon", lastName: "Cooper", streetAddress: "1 Infinite Loop", city: "Pasadena", state: "California", zipCode: "91001")

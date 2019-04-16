@@ -122,6 +122,8 @@ class NewPassViewController: UIViewController {
         
         emptyLabelInTestView()
         
+        // Disable the buttons during the "animation"
+        disableTestButtons()
         var delay = DispatchTime.now() + .seconds(0)
         if let entrant = entrant {
             for area in areas { // testing for the different areas
@@ -133,16 +135,21 @@ class NewPassViewController: UIViewController {
                 delay = delay + .seconds(1)
             }
             centerRightLabel.text = ""
+            // Re-enable the other buttons after the "animation"
+            DispatchQueue.main.asyncAfter(deadline: delay - .seconds(1), execute: {
+                self.enableTestButtons()
+            })
+            
         }
+      
 
     }
     
     // Displays Access rights for a given Entrant and a given Area
     func displayAreaAccess(forArea area: Area, andEntrant entrant: Entrant) {
         
-        
         var stringAccess = ""
-
+        
         if entrant.areaAccess.contains(area) {
             stringAccess = "\(area.rawValue) ✅"
             soundEffectsPlayer.playSound(for: .accessGranted)
@@ -164,13 +171,15 @@ class NewPassViewController: UIViewController {
         case .office:
             self.officeLabel.text = stringAccess
         }
-        
+       
+      
     }
     
     @IBAction func rideAccessButtonTapped(_ sender: UIButton) {
         
-        // Ride access
         emptyLabelInTestView()
+        // Disable the other buttons during the "animation"
+       disableTestButtons()
         if let rideAccess = rideAccessLabel.text {
             centerLeftLabel.text = rideAccess
         }
@@ -192,9 +201,8 @@ class NewPassViewController: UIViewController {
             } else {
                 self.soundEffectsPlayer.playSound(for: .accessDenied)
             }
+            self.enableTestButtons()
         })
-        
-        
     }
     
     
@@ -218,7 +226,18 @@ class NewPassViewController: UIViewController {
         officeLabel.text = ""
         centerRightLabel.text = ""
         centerLeftLabel.text = ""
-        
+    }
+    
+    func enableTestButtons() {
+        self.areaAccessButton.isEnabled = true
+        self.rideAccessButton.isEnabled = true
+        self.discountAccessButton.isEnabled = true
+    }
+    
+    func disableTestButtons() {
+        self.areaAccessButton.isEnabled = false
+        self.rideAccessButton.isEnabled = false
+        self.discountAccessButton.isEnabled = false
     }
     
     // Create new pass (i.e. displayong an alert view) and back to the main screen
