@@ -515,7 +515,7 @@ class ViewController: UIViewController {
     
     // Create Personal Information from input text fields
     func createPersonalInformation() -> PersonalInformation? {
-        if let firstName = firstNameTextField.text, let lastName = lastNameTextField.text, let company = companyTextField.text, let street = streetAddressTextField.text,
+        if let firstName = firstNameTextField.text, let lastName = lastNameTextField.text, let street = streetAddressTextField.text,
             let city = cityTextField.text, let state = stateTextField.text, let zip = zipCodeTextField.text {
                 return PersonalInformation(firstName: firstName, lastName: lastName, streetAddress: street, city: city, state: state, zipCode: zip)
         }

@@ -9,16 +9,16 @@
 import Foundation
 
 enum Area: String {
-    case amusement
-    case kitchen
-    case rideControl
-    case maintenance
-    case office
+    case amusement = "Amusement Area"
+    case kitchen = "Kitchen Area"
+    case rideControl = "Ride Control Area"
+    case maintenance = "Maintenance Area"
+    case office = "Office Area"
 }
 
-enum RideAccess {
-    case all
-    case skipTheLines
+enum RideAccess: String {
+    case all = "Access all the rides"
+    case skipTheLines = "Skipe the lines"
 }
 
 enum DiscountAccess {

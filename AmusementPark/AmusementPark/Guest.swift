@@ -31,6 +31,8 @@ class Guest: Entrant {
         case .classic: return [.onFood(percentage: 0), .onMerchandise(percentage: 0)]
         case .vip: return [.onFood(percentage: 10), .onMerchandise(percentage: 20)]
         case .freeChild: return [.onFood(percentage: 0), .onMerchandise(percentage: 0)]
+        case .senior: return [.onFood(percentage: 10), .onMerchandise(percentage: 10)]
+        case .seasonPass: return [.onFood(percentage: 10), .onMerchandise(percentage: 20)]
         default: return []
             
         }

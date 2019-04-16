@@ -25,6 +25,12 @@ class NewPassViewController: UIViewController {
     
     @IBOutlet weak var testLabel: UILabel!
     
+    @IBOutlet weak var amusementLabel: UILabel!
+    @IBOutlet weak var centerLeftLabel: UILabel! // For kitchen, ride access, food disc.
+    @IBOutlet weak var centerRightLabel: UILabel! // For skip the lines and merch. disc.
+    @IBOutlet weak var rideControl: UILabel!
+    @IBOutlet weak var maintenanceLabel: UILabel!
+    @IBOutlet weak var officeLabel: UILabel!
     // MARK: - Stored Properties
     var entrant: Entrant? // Entrant to test
     let soundEffectsPlayer = SoundEffectPlayer()
@@ -35,6 +41,7 @@ class NewPassViewController: UIViewController {
         
         rideAccessLabel.text = ""
         skipTheLinesLabel.text = ""
+        testLabel.text = "Access To:"
         
         if let entrant = entrant {
             displayName(for: entrant)
@@ -66,17 +73,28 @@ class NewPassViewController: UIViewController {
     
     func displayAccess(for entrant: Entrant) {
         if entrant.rideAccess.contains(.all) {
-            rideAccessLabel.text = "Unlimited Access to Rides"
-            skipTheLinesLabel.text = "Not allowed to skip the lines ❌ "
+            rideAccessLabel.text = "Unlimited Access to Rides ✅"
+            skipTheLinesLabel.text = "Not allowed to skip the lines ⛔️ "
         }
         if entrant.rideAccess.contains(.skipTheLines) {
-            skipTheLinesLabel.text = "Allowed to skip the lines 👍"
+            skipTheLinesLabel.text = "Allowed to skip the lines ✅"
         }
     }
     
     func displayDiscounts(for entrant: Entrant) {
-        foodDiscountLabel.text = "\(entrant.discountAccess[0].discount)% Food Discount"
-        merchDiscountLabel.text = "\(entrant.discountAccess[1].discount)% Merch Discount"
+        
+        if entrant.discountAccess[0].discount == 0.0 {
+            foodDiscountLabel.text = "No Food Discount 😞"
+        } else {
+            foodDiscountLabel.text = "\(entrant.discountAccess[0].discount)% Food Discount 👍"
+        }
+        
+        if entrant.discountAccess[1].discount == 0.0 {
+            merchDiscountLabel.text = "No Merch Discount 😞"
+            
+        } else {
+            merchDiscountLabel.text = "\(entrant.discountAccess[1].discount)% Merch Discount 👍"
+        }
 
     }
     
@@ -86,23 +104,35 @@ class NewPassViewController: UIViewController {
     @IBAction func areaAccessButtonTapped(_ sender: UIButton) {
         let areas: [Area] = [.amusement, .kitchen, .maintenance, .office, .rideControl]
         
-        var testString = "Access to: "
+        var stringAccess = ""
+        
         if let entrant = entrant {
             for area in areas { // testing for the different areas
+                
+                
                 if entrant.areaAccess.contains(area) {
-                    testString += "\(area)-"
+                    stringAccess = "\(area.rawValue) ✅"
+                    soundEffectsPlayer.playSound(for: .accessGranted)
+
+                } else {
+                    stringAccess = "\(area.rawValue) ⛔️"
+                    soundEffectsPlayer.playSound(for: .accessDenied)
+                }
+                
+                switch area {
+                case .amusement:
+                    amusementLabel.text = stringAccess
+                case .kitchen:
+                    centerLeftLabel.text = stringAccess
+                case .maintenance:
+                    maintenanceLabel.text = stringAccess
+                case .rideControl:
+                    rideControl.text = stringAccess
+                case .office:
+                    officeLabel.text = stringAccess
                 }
             }
-        }
-        
-        // Displaying the result (and playing a sound)
-        testString = testString.dropLast() + ""
-        if testString == "" {
-            testLabel.text = "Acces Denied"
-            soundEffectsPlayer.playSound(for: .accessDenied)
-        } else {
-            testLabel.text = testString
-            soundEffectsPlayer.playSound(for: .accessGranted)
+            centerRightLabel.text = ""
         }
 
     }
@@ -110,34 +140,34 @@ class NewPassViewController: UIViewController {
     @IBAction func rideAccessButtonTapped(_ sender: UIButton) {
         
         // Ride access
-        var rideAccessString = ""
+        amusementLabel.text = ""
+        rideControl.text = ""
+        maintenanceLabel.text = ""
+        officeLabel.text = ""
+        
         if let rideAccess = rideAccessLabel.text {
-            rideAccessString += rideAccess
+            centerLeftLabel.text = rideAccess
+        } else {
+            centerLeftLabel.text = "Unlimited Access to Rides ⛔️"
         }
         
         // Skip the lines access
         if let skipTheLine = skipTheLinesLabel.text {
-            if rideAccessString == "" {
-                rideAccessString += skipTheLine
-            } else {
-                rideAccessString += " - \(skipTheLine)"
-            }
+            centerRightLabel.text = skipTheLine
         }
         
-        // Displaying the result (and playing a sound)
-        testLabel.text = rideAccessString
-        
-        if rideAccessString != "" {
-            soundEffectsPlayer.playSound(for: .accessGranted)
-        } else {
-            testLabel.text = "Access Denied"
-            soundEffectsPlayer.playSound(for: .accessDenied)
-        }
     }
     
     
     @IBAction func discountAccessButtonTapped(_ sender: UIButton) {
-        testLabel.text = "\(foodDiscountLabel.text!) - \(merchDiscountLabel.text!)"
+        
+        if let foodLabel = foodDiscountLabel.text {
+            centerLeftLabel.text = foodLabel
+        }
+        
+        if let merchlabel = merchDiscountLabel.text {
+            centerRightLabel.text = merchlabel
+        }
     }
     
     // Creat new pass (i.e. displayong an alert view) and back to the main screen
