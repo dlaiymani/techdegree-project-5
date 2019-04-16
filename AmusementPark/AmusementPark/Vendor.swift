@@ -56,8 +56,8 @@ class Vendor: Entrant {
             throw EntrantError.addressImcomplete
         }
         self.personalInformation = personalInformation
-        self.entrantCategory = .manager
-        self.entrantType = .manager
+        self.entrantCategory = .vendor
+        self.entrantType = .vendor
         self.areaAccess = company.authorizedAreaAccess()
 
     }

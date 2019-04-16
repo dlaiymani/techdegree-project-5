@@ -35,6 +35,8 @@ class NewPassViewController: UIViewController {
     var entrant: Entrant? // Entrant to test
     let soundEffectsPlayer = SoundEffectPlayer()
 
+    var rideAccessRight = false
+    var skipTheLinesRight = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,16 +70,30 @@ class NewPassViewController: UIViewController {
     }
 
     func displayCategoryAndType(for entrant: Entrant) {
-        typeAndCategoryLabel.text = "\(entrant.entrantCategory.rawValue) \(entrant.entrantType.rawValue) Pass"
+        if entrant.entrantCategory == .manager || entrant.entrantCategory == .vendor {
+            typeAndCategoryLabel.text = "\(entrant.entrantCategory.rawValue) Pass"
+        } else {
+            typeAndCategoryLabel.text = "\(entrant.entrantCategory.rawValue) \(entrant.entrantType.rawValue) Pass"
+        }
     }
     
     func displayAccess(for entrant: Entrant) {
+        if entrant.rideAccess.isEmpty { // Vendor or Contract Employee
+            rideAccessLabel.text = "Access to Rides Denied ⛔️"
+            rideAccessRight = false
+            skipTheLinesLabel.text = "Not allowed to skip the lines ⛔️"
+            skipTheLinesRight = false
+        }
         if entrant.rideAccess.contains(.all) {
             rideAccessLabel.text = "Unlimited Access to Rides ✅"
-            skipTheLinesLabel.text = "Not allowed to skip the lines ⛔️ "
+            rideAccessRight = true
+            skipTheLinesLabel.text = "Not allowed to skip the lines ⛔️"
+            skipTheLinesRight = false
+
         }
         if entrant.rideAccess.contains(.skipTheLines) {
             skipTheLinesLabel.text = "Allowed to skip the lines ✅"
+            skipTheLinesRight = false
         }
     }
     
@@ -102,64 +118,89 @@ class NewPassViewController: UIViewController {
     // MARK: - Test part
 
     @IBAction func areaAccessButtonTapped(_ sender: UIButton) {
-        let areas: [Area] = [.amusement, .kitchen, .maintenance, .office, .rideControl]
+        let areas: [Area] = [.amusement, .kitchen, .rideControl, .maintenance, .office]
         
-        var stringAccess = ""
+        emptyLabelInTestView()
         
+        var delay = DispatchTime.now() + .seconds(0)
         if let entrant = entrant {
             for area in areas { // testing for the different areas
                 
-                
-                if entrant.areaAccess.contains(area) {
-                    stringAccess = "\(area.rawValue) ✅"
-                    soundEffectsPlayer.playSound(for: .accessGranted)
-
-                } else {
-                    stringAccess = "\(area.rawValue) ⛔️"
-                    soundEffectsPlayer.playSound(for: .accessDenied)
-                }
-                
-                switch area {
-                case .amusement:
-                    amusementLabel.text = stringAccess
-                case .kitchen:
-                    centerLeftLabel.text = stringAccess
-                case .maintenance:
-                    maintenanceLabel.text = stringAccess
-                case .rideControl:
-                    rideControl.text = stringAccess
-                case .office:
-                    officeLabel.text = stringAccess
-                }
+                // Perform a 1 second pause between each display
+                DispatchQueue.main.asyncAfter(deadline: delay, execute: {
+                    self.displayAreaAccess(forArea: area, andEntrant: entrant)
+                })
+                delay = delay + .seconds(1)
             }
             centerRightLabel.text = ""
         }
 
     }
     
+    // Displays Access rights for a given Entrant and a given Area
+    func displayAreaAccess(forArea area: Area, andEntrant entrant: Entrant) {
+        
+        
+        var stringAccess = ""
+
+        if entrant.areaAccess.contains(area) {
+            stringAccess = "\(area.rawValue) ✅"
+            soundEffectsPlayer.playSound(for: .accessGranted)
+            
+        } else {
+            stringAccess = "\(area.rawValue) ⛔️"
+            soundEffectsPlayer.playSound(for: .accessDenied)
+        }
+        
+        switch area {
+        case .amusement:
+            self.amusementLabel.text = stringAccess
+        case .kitchen:
+            self.centerLeftLabel.text = stringAccess
+        case .maintenance:
+            self.maintenanceLabel.text = stringAccess
+        case .rideControl:
+            self.rideControl.text = stringAccess
+        case .office:
+            self.officeLabel.text = stringAccess
+        }
+        
+    }
+    
     @IBAction func rideAccessButtonTapped(_ sender: UIButton) {
         
         // Ride access
-        amusementLabel.text = ""
-        rideControl.text = ""
-        maintenanceLabel.text = ""
-        officeLabel.text = ""
-        
+        emptyLabelInTestView()
         if let rideAccess = rideAccessLabel.text {
             centerLeftLabel.text = rideAccess
-        } else {
-            centerLeftLabel.text = "Unlimited Access to Rides ⛔️"
         }
         
-        // Skip the lines access
-        if let skipTheLine = skipTheLinesLabel.text {
-            centerRightLabel.text = skipTheLine
+        if rideAccessRight {
+            soundEffectsPlayer.playSound(for: .accessGranted)
+        } else {
+            soundEffectsPlayer.playSound(for: .accessDenied)
         }
+        
+        let delay = DispatchTime.now() + .seconds(1)
+        DispatchQueue.main.asyncAfter(deadline: delay, execute: {
+            // Skip the lines access
+            if let skipTheLine = self.skipTheLinesLabel.text {
+                self.centerRightLabel.text = skipTheLine
+            }
+            if self.skipTheLinesRight {
+                self.soundEffectsPlayer.playSound(for: .accessGranted)
+            } else {
+                self.soundEffectsPlayer.playSound(for: .accessDenied)
+            }
+        })
+        
         
     }
     
     
     @IBAction func discountAccessButtonTapped(_ sender: UIButton) {
+        
+        emptyLabelInTestView()
         
         if let foodLabel = foodDiscountLabel.text {
             centerLeftLabel.text = foodLabel
@@ -170,6 +211,16 @@ class NewPassViewController: UIViewController {
         }
     }
     
+    func emptyLabelInTestView() {
+        amusementLabel.text = ""
+        rideControl.text = ""
+        maintenanceLabel.text = ""
+        officeLabel.text = ""
+        centerRightLabel.text = ""
+        centerLeftLabel.text = ""
+        
+    }
+    
     // Creat new pass (i.e. displayong an alert view) and back to the main screen
     @IBAction func createNewPass(_ sender: UIButton) {
         let alertController = UIAlertController(title: "Pass Created", message: "Back to main screen", preferredStyle: .alert)
@@ -178,5 +229,10 @@ class NewPassViewController: UIViewController {
         }
         alertController.addAction(action)
         present(alertController, animated: true, completion: nil)
+    }
+    
+    
+    @IBAction func cancelTapped(_ sender: UIButton) {
+        dismiss(animated: true, completion: nil)
     }
 }

@@ -800,11 +800,23 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Idj-fe-gXa">
+                                        <rect key="frame" x="722" y="9" width="82" height="42"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
+                                        <state key="normal" title="Cancel">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="cancelTapped:" destination="Y1H-Ff-zZK" eventType="touchUpInside" id="Z0Y-IM-uG2"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.35294117650000001" green="0.73333333329999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="T3n-Y5-2ug" firstAttribute="centerY" secondItem="v5h-I1-Il4" secondAttribute="centerY" id="7j5-VX-GVF"/>
                                     <constraint firstAttribute="height" constant="60" id="Nud-ie-5OB"/>
+                                    <constraint firstItem="Idj-fe-gXa" firstAttribute="centerY" secondItem="v5h-I1-Il4" secondAttribute="centerY" id="Xsp-ue-Nqu"/>
+                                    <constraint firstAttribute="trailing" secondItem="Idj-fe-gXa" secondAttribute="trailing" constant="30" id="lnR-vO-QbM"/>
                                     <constraint firstItem="T3n-Y5-2ug" firstAttribute="centerX" secondItem="v5h-I1-Il4" secondAttribute="centerX" id="pDO-vm-BFS"/>
                                 </constraints>
                             </view>
